@@ -1,0 +1,20 @@
+:root {
+  --primary-white: #ffffff;
+  --primary-black: #000000;
+  --primary-grey: #a8a9a9;
+  --primary-blue: #007bff;
+  --text-color: #212529;
+  --text-color-bg:var(--primary-black);
+  --background-color:rgb(253, 252, 252);
+  --bg-footer:rgb(254, 253, 252);
+  --link-color: var(--primary-blue);
+}
+
+[data-theme="dark"] {
+  --background-color: #5c5d5d;
+  --text-color: white;
+  
+  --link-color: #90caf9;
+  --text-color-bg:var(--primary-black);
+
+}

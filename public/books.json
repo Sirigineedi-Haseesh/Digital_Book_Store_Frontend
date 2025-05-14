@@ -1,0 +1,772 @@
+[
+    {
+      "bookId": 5,
+      "isbn": "978-0321765723",
+      "title": "The Lord of the Rings",
+      "author": "J.R.R. Tolkien",
+      "category": "Fantasy",
+      "price": 25.99,
+      "description": "An epic fantasy novel about the journey to destroy the One Ring.",
+      "image": "https://m.media-amazon.com/images/I/51EstVXM1UL.jpg"
+    },
+    {
+      "bookId": 6,
+      "isbn": "978-0743273565",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "category": "Classic Literature",
+      "price": 12.50,
+      "description": "A story of wealth, love, and the American Dream in the 1920s.",
+      "image": "https://m.media-amazon.com/images/I/81Afzr+eJ-L.jpg"
+    },
+    {
+      "bookId": 3,
+      "isbn": "978-0061120084",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "category": "Classic Literature",
+      "price": 14.75,
+      "description": "A novel about racial injustice and moral growth in the Deep South.",
+      "image": "https://m.media-amazon.com/images/I/81OdwZG2HkL.jpg"
+    },
+    {
+      "bookId": 4,
+      "isbn": "978-0743297325",
+      "title": "The Da Vinci Code",
+      "author": "Dan Brown",
+      "category": "Thriller",
+      "price": 18.99,
+      "description": "A thrilling mystery involving secret societies and hidden codes.",
+      "image": "https://m.media-amazon.com/images/I/81QZ2+4zJ-L.jpg"
+    },
+    {
+      "bookId": 1,
+      "isbn": "978-1984801939",
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "category": "Science Fiction",
+      "price": 22.00,
+      "description": "A lone astronaut must save Earth from disaster in this sci-fi adventure.",
+      "image": "https://m.media-amazon.com/images/I/91kK1y+9uSL.jpg"
+    },
+    {
+      "bookId": 2,
+      "isbn": "978-0316769488",
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "category": "Classic Literature",
+      "price": 11.20,
+      "description": "A story about teenage rebellion and alienation.",
+      "image": "https://m.media-amazon.com/images/I/71tbalAHYCL.jpg"
+    },
+    {
+      "bookId": 7,
+      "isbn": "978-0062458710",
+      "title": "The Nightingale",
+      "author": "Kristin Hannah",
+      "category": "Historical Fiction",
+      "price": 16.50,
+      "description": "A tale of two sisters during World War II and their struggle for survival.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 8,
+      "isbn": "978-0593318039",
+      "title": "Where the Crawdads Sing",
+      "author": "Delia Owens",
+      "category": "Fiction",
+      "price": 17.80,
+      "description": "A mystery and coming-of-age story set in the marshes of North Carolina.",
+      "image": "https://m.media-amazon.com/images/I/81WWiiLg5XL.jpg"
+    },
+    {
+      "bookId": 9,
+      "isbn": "978-0143135288",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "category": "Classic Literature",
+      "price": 9.99,
+      "description": "A romantic novel about manners, marriage, and societal expectations.",
+      "image": "https://m.media-amazon.com/images/I/81z4+9uSL.jpg"
+    },
+    {
+      "bookId": 10,
+      "isbn": "978-0525562148",
+      "title": "The Invisible Life of Addie LaRue",
+      "author": "V.E. Schwab",
+      "category": "Fantasy",
+      "price": 20.50,
+      "description": "A story of a woman who makes a Faustian bargain to live forever but is forgotten by everyone she meets.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 11,
+      "isbn": "978-0061122415",
+      "title": "The Alchemist",
+      "author": "Paulo Coelho",
+      "category": "Fiction",
+      "price": 15.25,
+      "description": "A philosophical tale about following your dreams and discovering your destiny.",
+      "image": "https://example.com/images/the_alchemist.jpg"
+    },
+    {
+      "bookId": 12,
+      "isbn": "978-0743273589",
+      "title": "The Old Man and the Sea",
+      "author": "Ernest Hemingway",
+      "category": "Classic Literature",
+      "price": 10.99,
+      "description": "A story of an epic struggle between an old fisherman and a giant marlin.",
+      "image": "https://example.com/images/the_old_man_and_the_sea.jpg"
+    },
+    {
+      "bookId": 13,
+      "isbn": "978-0399590504",
+      "title": "The Martian",
+      "author": "Andy Weir",
+      "category": "Science Fiction",
+      "price": 19.50,
+      "description": "A gripping tale of survival as an astronaut is stranded on Mars.",
+      "image": "https://example.com/images/the_martian.jpg"
+    },
+    {
+      "bookId": 14,
+      "isbn": "978-0307277671",
+      "title": "The Kite Runner",
+      "author": "Khaled Hosseini",
+      "category": "Fiction",
+      "price": 13.80,
+      "description": "A powerful story of friendship, betrayal, and redemption set in Afghanistan.",
+      "image": "https://example.com/images/the_kite_runner.jpg"
+    },
+    {
+      "bookId": 15,
+      "isbn": "978-0451524935",
+      "title": "1984",
+      "author": "George Orwell",
+      "category": "Dystopian",
+      "price": 11.50,
+      "description": "A chilling depiction of a totalitarian regime and the loss of individuality.",
+      "image": "https://example.com/images/1984.jpg"
+    },
+    {
+      "bookId": 16,
+      "isbn": "978-0062315006",
+      "title": "Little Fires Everywhere",
+      "author": "Celeste Ng",
+      "category": "Fiction",
+      "price": 16.75,
+      "description": "A compelling drama about family secrets and societal expectations.",
+      "image": "https://m.media-amazon.com/images/I/81mLxv+9uSL.jpg"
+    },
+    {
+      "bookId": 17,
+      "isbn": "978-0399175813",
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "category": "Science Fiction",
+      "price": 21.00,
+      "description": "A science fiction epic about politics, religion, and survival on a desert planet.",
+      "image": "https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg"
+    },
+    {
+      "bookId": 18,
+      "isbn": "978-0345391803",
+      "title": "The Hitchhiker's Guide to the Galaxy",
+      "author": "Douglas Adams",
+      "category": "Science Fiction",
+      "price": 14.20,
+      "description": "A humorous journey through space with quirky characters and absurd adventures.",
+      "image": "https://m.media-amazon.com/images/I/91kzG+9uSL.jpg"
+    },
+    {
+      "bookId": 19,
+      "isbn": "978-0062667747",
+      "title": "Eleanor Oliphant Is Completely Fine",
+      "author": "Gail Honeyman",
+      "category": "Fiction",
+      "price": 15.99,
+      "description": "A heartwarming story about loneliness, friendship, and self-discovery.",
+      "image": "https://m.media-amazon.com/images/I/81c+9uSL.jpg"
+    },
+    {
+      "bookId": 20,
+      "isbn": "978-0553807860",
+      "title": "The Girl with the Dragon Tattoo",
+      "author": "Stieg Larsson",
+      "category": "Mystery",
+      "price": 17.25,
+      "description": "A gripping mystery involving a journalist and a brilliant hacker.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 21,
+      "isbn": "978-0307887449",
+      "title": "Gone Girl",
+      "author": "Gillian Flynn",
+      "category": "Thriller",
+      "price": 18.50,
+      "description": "A psychological thriller about a marriage gone terribly wrong.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 22,
+      "isbn": "978-0062865785",
+      "title": "The Seven Husbands of Evelyn Hugo",
+      "author": "Taylor Jenkins Reid",
+      "category": "Historical Fiction",
+      "price": 19.99,
+      "description": "A captivating tale of a Hollywood icon and her tumultuous life.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 23,
+      "isbn": "978-0525563992",
+      "title": "Circe",
+      "author": "Madeline Miller",
+      "category": "Fantasy",
+      "price": 16.99,
+      "description": "A retelling of Greek mythology through the eyes of the enchantress Circe.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 24,
+      "isbn": "978-0399590177",
+      "title": "The Secret History",
+      "author": "Donna Tartt",
+      "category": "Mystery",
+      "price": 14.50,
+      "description": "A dark and gripping tale of murder among a group of elite students.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 25,
+      "isbn": "978-0385542120",
+      "title": "The Handmaid's Tale",
+      "author": "Margaret Atwood",
+      "category": "Dystopian",
+      "price": 12.75,
+      "description": "A dystopian novel about a society where women are stripped of their rights.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 26,
+      "isbn": "978-0316772297",
+      "title": "Big Little Lies",
+      "author": "Liane Moriarty",
+      "category": "Mystery",
+      "price": 16.20,
+      "description": "A darkly comedic tale of secrets, lies, and murder in a suburban community.",
+      "image": "https://m.media-amazon.com/images/I/81zL5q+9uSL.jpg"
+    },
+    {
+      "bookId": 27,
+      "isbn": "978-0307947716",
+      "title": "The Goldfinch",
+      "author": "Donna Tartt",
+      "category": "Fiction",
+      "price": 20.00,
+      "description": "A young boy's life is forever changed after a tragic event and a stolen painting.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 28,
+      "isbn": "978-0062407640",
+      "title": "A Little Life",
+      "author": "Hanya Yanagihara",
+      "category": "Fiction",
+      "price": 19.25,
+      "description": "An emotional exploration of friendship, trauma, and resilience.",
+      "image": "https://m.media-amazon.com/images/I/81mLxv+9uSL.jpg"
+    },
+    {
+      "bookId": 29,
+      "isbn": "978-0399590214",
+      "title": "The Power of the Dog",
+      "author": "Thomas Savage",
+      "category": "Western",
+      "price": 15.50,
+      "description": "A tense and haunting story of family dynamics and repressed emotions.",
+      "image": "https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg"
+    },
+    {
+      "bookId": 30,
+      "isbn": "978-0307474278",
+      "title": "No Country for Old Men",
+      "author": "Cormac McCarthy",
+      "category": "Thriller",
+      "price": 13.99,
+      "description": "A gripping tale of crime, morality, and survival in the Texas desert.",
+      "image": "https://m.media-amazon.com/images/I/81c+9uSL.jpg"
+    },
+    {
+      "bookId": 31,
+      "isbn": "978-0307277688",
+      "title": "The Road",
+      "author": "Cormac McCarthy",
+      "category": "Dystopian",
+      "price": 12.20,
+      "description": "A harrowing journey of a father and son through a post-apocalyptic world.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 32,
+      "isbn": "978-0399590184",
+      "title": "Blood Meridian",
+      "author": "Cormac McCarthy",
+      "category": "Western",
+      "price": 17.00,
+      "description": "A brutal and poetic tale of violence and survival in the American West.",
+      "image": "https://m.media-amazon.com/images/I/81zL5q+9uSL.jpg"
+    },
+    {
+      "bookId": 33,
+      "isbn": "978-0307957609",
+      "title": "The Underground Railroad",
+      "author": "Colson Whitehead",
+      "category": "Historical Fiction",
+      "price": 18.75,
+      "description": "A powerful reimagining of the Underground Railroad as an actual railway system.",
+      "image": "https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg"
+    },
+    {
+      "bookId": 34,
+      "isbn": "978-0385537072",
+      "title": "Beloved",
+      "author": "Toni Morrison",
+      "category": "Historical Fiction",
+      "price": 14.99,
+      "description": "A haunting story of slavery, motherhood, and the ghosts of the past.",
+      "image": "https://m.media-amazon.com/images/I/81mLxv+9uSL.jpg"
+    },
+    {
+      "bookId": 35,
+      "isbn": "978-0307277695",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "category": "Non-Fiction",
+      "price": 24.50,
+      "description": "A thought-provoking exploration of the history and evolution of humanity.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 36,
+      "isbn": "978-0062334779",
+      "title": "Becoming",
+      "author": "Michelle Obama",
+      "category": "Non-Fiction",
+      "price": 21.20,
+      "description": "A deeply personal memoir by the former First Lady of the United States.",
+      "image": "https://m.media-amazon.com/images/I/81h2gWPTYJL.jpg"
+    },
+    {
+      "bookId": 37,
+      "isbn": "978-0399590214",
+      "title": "Educated",
+      "author": "Tara Westover",
+      "category": "Non-Fiction",
+      "price": 19.75,
+      "description": "A memoir about growing up in a strict and abusive household and pursuing education.",
+      "image": "https://m.media-amazon.com/images/I/81WojUxbbFL.jpg"
+    },
+    {
+      "bookId": 38,
+      "isbn": "978-0316448661",
+      "title": "The Subtle Art of Not Giving a F*ck",
+      "author": "Mark Manson",
+      "category": "Self-Help",
+      "price": 15.00,
+      "description": "A counterintuitive approach to living a good life by embracing limitations.",
+      "image": "https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg"
+    },
+    {
+      "bookId": 39,
+      "isbn": "978-0525592176",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "category": "Self-Help",
+      "price": 18.00,
+      "description": "A practical guide to building good habits and breaking bad ones.",
+      "image": "https://m.media-amazon.com/images/I/91bYsX41DVL.jpg"
+    },
+    {
+      "bookId": 40,
+      "isbn": "978-0399590252",
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "category": "Psychology",
+      "price": 26.99,
+      "description": "An exploration of the two systems that drive human thought and decision-making.",
+      "image": "https://m.media-amazon.com/images/I/71jZe7yYl-L.jpg"
+    },
+    {
+      "bookId": 41,
+      "isbn": "978-0062936560",
+      "title": "Where the Sidewalk Ends",
+      "author": "Shel Silverstein",
+      "category": "Poetry",
+      "price": 10.50,
+      "description": "A whimsical collection of poems and drawings for readers of all ages.",
+      "image": "https://m.media-amazon.com/images/I/81F9w0m9OQL.jpg"
+    },
+    {
+      "bookId": 42,
+      "isbn": "978-0399590276",
+      "title": "Leaves of Grass",
+      "author": "Walt Whitman",
+      "category": "Poetry",
+      "price": 12.99,
+      "description": "A groundbreaking collection of poetry celebrating nature, humanity, and democracy.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 43,
+      "isbn": "978-0307947723",
+      "title": "The Odyssey",
+      "author": "Homer",
+      "category": "Classics",
+      "price": 11.75,
+      "description": "An epic poem about the adventures of Odysseus on his journey home.",
+      "image": "https://m.media-amazon.com/images/I/91clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 44,
+      "isbn": "978-0143105212",
+      "title": "Hamlet",
+      "author": "William Shakespeare",
+      "category": "Drama",
+      "price": 9.50,
+      "description": "A tragedy about revenge, madness, and political intrigue in Denmark.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 45,
+      "isbn": "978-0743273572",
+      "title": "Romeo and Juliet",
+      "author": "William Shakespeare",
+      "category": "Drama",
+      "price": 8.99,
+      "description": "A timeless tale of love and tragedy between two star-crossed lovers.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 46,
+      "isbn": "978-0061120060",
+      "title": "The Adventures of Sherlock Holmes",
+      "author": "Arthur Conan Doyle",
+      "category": "Mystery",
+      "price": 13.20,
+      "description": "A collection of thrilling detective stories featuring the iconic Sherlock Holmes.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 47,
+      "isbn": "978-0141439518",
+      "title": "Frankenstein",
+      "author": "Mary Shelley",
+      "category": "Gothic Horror",
+      "price": 10.25,
+      "description": "A chilling tale of ambition, science, and the consequences of playing God.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 48,
+      "isbn": "978-0451524928",
+      "title": "Dracula",
+      "author": "Bram Stoker",
+      "category": "Gothic Horror",
+      "price": 11.99,
+      "description": "A classic horror novel about the infamous vampire Count Dracula.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 49,
+      "isbn": "978-0062820371",
+      "title": "The Hunger Games",
+      "author": "Suzanne Collins",
+      "category": "Young Adult",
+      "price": 14.00,
+      "description": "A dystopian story of survival and rebellion in a deadly televised competition.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 50,
+      "isbn": "978-0316160178",
+      "title": "Harry Potter and the Sorcerer's Stone",
+      "author": "J.K. Rowling",
+      "category": "Young Adult Fantasy",
+      "price": 16.00,
+      "description": "The magical journey of a young wizard discovering his destiny.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 51,
+      "isbn": "978-0316769532",
+      "title": "The Fault in Our Stars",
+      "author": "John Green",
+      "category": "Young Adult",
+      "price": 12.50,
+      "description": "A poignant love story between two teens battling cancer.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 52,
+      "isbn": "978-0062390081",
+      "title": "Wonder",
+      "author": "R.J. Palacio",
+      "category": "Middle Grade",
+      "price": 10.75,
+      "description": "An inspiring story about a boy with facial differences navigating school life.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 53,
+      "isbn": "978-0545583003",
+      "title": "The Lightning Thief (Percy Jackson & The Olympians)",
+      "author": "Rick Riordan",
+      "category": "Middle Grade Fantasy",
+      "price": 13.50,
+      "description": "A thrilling adventure of a boy discovering he is a demigod.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 54,
+      "isbn": "978-0399554728",
+      "title": "Charlotte's Web",
+      "author": "E.B. White",
+      "category": "Children's Literature",
+      "price": 9.25,
+      "description": "A heartwarming tale of friendship between a pig and a spider.",
+      "image": "https://m.media-amazon.com/images/I/81clQp+9uSL.jpg"
+    },
+    {
+      "bookId": 55,
+      "isbn": "978-0061120077",
+      "title": "The Cat in the Hat",
+      "author": "Dr. Seuss",
+      "category": "Children's Literature",
+      "price": 8.50,
+      "description": "A whimsical and mischievous story that delights young readers.",
+      "image": ""
+    },
+    {
+      "bookId": 56,
+      "isbn": "978-0670058837",
+      "title": "Goodnight Moon",
+      "author": "Margaret Wise Brown",
+      "category": "Children's Literature",
+      "price": 7.99,
+      "description": "A soothing bedtime story cherished by generations of children.",
+      "image": ""
+    },
+    {
+      "bookId": 57,
+      "isbn": "978-0321765730",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "category": "Fantasy",
+      "price": 22.75,
+      "description": "A classic fantasy adventure of Bilbo Baggins and his quest for treasure.",
+      "image": ""
+    },
+    {
+      "bookId": 58,
+      "isbn": "978-0743273596",
+      "title": "A Farewell to Arms",
+      "author": "Ernest Hemingway",
+      "category": "Classic Literature",
+      "price": 11.50,
+      "description": "A poignant love story set against the backdrop of World War I.",
+      "image": ""
+    },
+    {
+      "bookId": 59,
+      "isbn": "978-0061120091",
+      "title": "Go Set a Watchman",
+      "author": "Harper Lee",
+      "category": "Classic Literature",
+      "price": 15.00,
+      "description": "A sequel to 'To Kill a Mockingbird' exploring racial tensions in the South.",
+      "image": ""
+    },
+    {
+      "bookId": 60,
+      "isbn": "978-0743297332",
+      "title": "Angels & Demons",
+      "author": "Dan Brown",
+      "category": "Thriller",
+      "price": 19.20,
+      "description": "A fast-paced thriller involving secret societies and ancient conspiracies.",
+      "image": ""
+    },
+    {
+      "bookId": 61,
+      "isbn": "978-1984801946",
+      "title": "Artemis",
+      "author": "Andy Weir",
+      "category": "Science Fiction",
+      "price": 21.50,
+      "description": "A heist story set on the moon with a strong and resourceful protagonist.",
+      "image": ""
+    },
+    {
+      "bookId": 62,
+      "isbn": "978-0316769495",
+      "title": "Nine Perfect Strangers",
+      "author": "Liane Moriarty",
+      "category": "Fiction",
+      "price": 17.50,
+      "description": "A suspenseful tale of strangers at a wellness retreat with dark secrets.",
+      "image": ""
+    },
+    {
+      "bookId": 63,
+      "isbn": "978-0062667631",
+      "title": "The Tattooist of Auschwitz",
+      "author": "Heather Morris",
+      "category": "Historical Fiction",
+      "price": 16.00,
+      "description": "A moving story of love and survival in a Nazi concentration camp.",
+      "image": ""
+    },
+    {
+      "bookId": 64,
+      "isbn": "978-0593105240",
+      "title": "The Silent Patient",
+      "author": "Alex Michaelides",
+      "category": "Thriller",
+      "price": 18.00,
+      "description": "A psychological thriller about a woman who stops speaking after a crime.",
+      "image": ""
+    },
+    {
+      "bookId": 65,
+      "isbn": "978-0143128563",
+      "title": "The Night Circus",
+      "author": "Erin Morgenstern",
+      "category": "Fantasy",
+      "price": 20.00,
+      "description": "A magical and enchanting tale of a mysterious circus and its performers.",
+      "image": ""
+    },
+    {
+      "bookId": 66,
+      "isbn": "978-0062457737",
+      "title": "The Book Thief",
+      "author": "Markus Zusak",
+      "category": "Historical Fiction",
+      "price": 14.50,
+      "description": "A touching story of a young girl in Nazi Germany narrated by Death.",
+      "image": ""
+    },
+    {
+      "bookId": 67,
+      "isbn": "978-0451526342",
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "category": "Classic Literature",
+      "price": 12.00,
+      "description": "A dark tale of vanity, morality, and the cost of eternal youth.",
+      "image": ""
+    },
+    {
+      "bookId": 68,
+      "isbn": "978-0062315006",
+      "title": "The Bell Jar",
+      "author": "Sylvia Plath",
+      "category": "Classic Literature",
+      "price": 13.50,
+      "description": "A semi-autobiographical novel exploring mental health and identity.",
+      "image": ""
+    },
+    {
+      "bookId": 69,
+      "isbn": "978-0451524935",
+      "title": "The Grapes of Wrath",
+      "author": "John Steinbeck",
+      "category": "Classic Literature",
+      "price": 15.75,
+      "description": "A powerful story of a family's struggle during the Great Depression.",
+      "image": ""
+    },
+    {
+      "bookId": 70,
+      "isbn": "978-0061120084",
+      "title": "The Road to Character",
+      "author": "David Brooks",
+      "category": "Non-Fiction",
+      "price": 18.50,
+      "description": "An exploration of the values that build strong and meaningful lives.",
+      "image": ""
+    },
+    {
+      "bookId": 71,
+      "isbn": "978-0062457713",
+      "title": "Becoming a Writer",
+      "author": "Doris Lessing",
+      "category": "Non-Fiction",
+      "price": 16.25,
+      "description": "A guide to finding your voice and developing your craft as a writer.",
+      "image": ""
+    },
+    {
+      "bookId": 72,
+      "isbn": "978-0062457706",
+      "title": "The Artist's Way",
+      "author": "Julia Cameron",
+      "category": "Self-Help",
+      "price": 15.50,
+      "description": "A creative guide to unlocking your artistic potential and overcoming blocks.",
+      "image": ""
+    },
+    {
+      "bookId": 73,
+      "isbn": "978-0062667631",
+      "title": "The Gifts of Imperfection",
+      "author": "Brené Brown",
+      "category": "Self-Help",
+      "price": 17.00,
+      "description": "A guide to embracing vulnerability and living wholeheartedly.",
+      "image": ""
+    },
+    {
+      "bookId": 74,
+      "isbn": "978-0062936560",
+      "title": "The Power of Now",
+      "author": "Eckhart Tolle",
+      "category": "Self-Help",
+      "price": 14.99,
+      "description": "A spiritual guide to living in the present moment and finding inner peace.",
+      "image": ""
+    },
+    {
+      "bookId": 75,
+      "isbn": "978-0062667631",
+      "title": "The Four Agreements",
+      "author": "Don Miguel Ruiz",
+      "category": "Self-Help",
+      "price": 13.50,
+      "description": "A practical guide to personal freedom based on ancient Toltec wisdom.",
+      "image": ""
+    },
+    {
+      "bookId": 76,
+      "isbn": "978-0062667631",
+      "title": "The Art of Happiness",
+      "author": "Dalai Lama",
+      "category": "Self-Help",
+      "price": 16.50,
+      "description": "A philosophical exploration of happiness and how to achieve it.",
+      "image": ""
+    },
+    {
+      "bookId": 77,
+      "isbn": "978-0062667631",
+      "title": "The Happiness Project",
+      "author": "Gretchen Rubin",
+      "category": "Self-Help",
+      "price": 18.00,
+      "description": "A year-long journey to discover what truly brings happiness.",
+      "image": ""
+    }
+]

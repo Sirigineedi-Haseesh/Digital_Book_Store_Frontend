@@ -1,0 +1,48 @@
+.cart-item img {
+  max-width: 100px;
+  height: auto;
+}
+
+.quantity-input {
+  width: 50px;
+}
+
+.cart-summary {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+.cart-container{
+  height: 100vh;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; 
+}
+
+.form-label {
+  margin-right: 10px; /* Space between label and input */
+}
+
+.form-control {
+  flex: 1; /* Take up remaining space */
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  /* padding: 10px 20px; */
+  margin-bottom: 30px !important;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+.container{
+  border: none !important;
+  box-shadow: none !important;
+ 
+}

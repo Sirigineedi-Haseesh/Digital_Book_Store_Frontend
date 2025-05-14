@@ -1,0 +1,28 @@
+.marquee {
+  width: 100%;
+  height: fit-content;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.marquee p {
+  color: var(--text-color);
+  display: inline-block;
+  animation: marquee 15s linear infinite;
+}
+
+
+.span {
+  color: red;
+  font-weight: 600;
+}
+
+.gap {
+  padding-left: 30%;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}

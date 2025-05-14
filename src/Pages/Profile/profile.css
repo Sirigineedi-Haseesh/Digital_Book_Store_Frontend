@@ -1,0 +1,144 @@
+.padding {
+    justify-content: center;
+    align-items: center;
+    padding: 3rem !important;
+    margin-left: 25vw;
+    margin-top:10vh;
+}
+
+.card-img-top{
+    height:300px;
+}
+.button-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .button-bar button {
+    flex: 1;
+    text-align: left;
+    padding: 10px;
+    border: none;
+    background-color: #f8f9fa;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 5px;
+  }
+  .arrow-icon{
+    float: right;
+    margin-right: 5vw;
+  }
+  .button-bar button:hover {
+    background-color: #e2e6ea;
+  }
+  
+.btn-left{
+    float: left;
+    
+}
+
+.card-no-border .card {
+    border-color: #d7dfe3;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05)
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem
+}
+
+.pro-img {
+    margin-top: -80px;
+    margin-bottom: 20px
+}
+
+.little-profile .pro-img img {
+    width: 128px;
+    height: 128px;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 100%
+}
+
+html body .m-b-0 {
+    margin-bottom: 0px
+}
+
+h3 {
+    line-height: 30px;
+    font-size: 21px
+}
+
+.btn-rounded.btn-md {
+    padding: 12px 35px;
+    font-size: 16px
+}
+
+html body .m-t-10 {
+    margin-top: 10px
+}
+
+.btn-primary,
+.btn-primary.disabled {
+    background: #7460ee;
+    border: 1px solid #7460ee;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(116, 96, 238, 0.14), 0 3px 1px -2px rgba(116, 96, 238, 0.2), 0 1px 5px 0 rgba(116, 96, 238, 0.12);
+    box-shadow: 0 2px 2px 0 rgba(116, 96, 238, 0.14), 0 3px 1px -2px rgba(116, 96, 238, 0.2), 0 1px 5px 0 rgba(116, 96, 238, 0.12);
+    -webkit-transition: 0.2s ease-in;
+    -o-transition: 0.2s ease-in;
+    transition: 0.2s ease-in
+}
+
+.btn-rounded {
+    border-radius: 60px;
+    padding: 7px 18px
+}
+
+.m-t-20 {
+    margin-top: 20px
+}
+
+.text-center {
+    text-align: center !important
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #455a64;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem
+}
+
+.icon-arrow {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('https://img.icons8.com/?size=100&id=15010&format=png&color=000000');
+    background-size: cover;
+}
+
+.icon-card {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('https://img.icons8.com/?size=100&id=99266&format=png&color=000000');
+    background-size: cover;
+}

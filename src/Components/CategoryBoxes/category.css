@@ -1,0 +1,17 @@
+.boxes {
+    display: flex; 
+    flex-direction: row;
+    min-height: 40vh;
+    padding-top: 7vh;
+    padding-bottom: 7vh;
+    justify-content:space-around;
+    align-items: center; 
+    gap: 10px;
+  }
+  
+  .boxes img {
+    border-radius: 10%;
+    width: 22vw;
+    height: auto; 
+   
+  }

@@ -1,0 +1,86 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.product-title {
+  font-family: 'Georgia', serif;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.product-image {
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.product-details p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.price {
+  font-size: 1.5rem;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.loading-message {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 20px;
+  color: #6c757d;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.form-select, .form-control {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+.row .col-md-6 {
+  padding: 0 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-control .btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.quantity-control input {
+  max-width: 60px;
+}

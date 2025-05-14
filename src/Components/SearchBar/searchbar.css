@@ -1,0 +1,85 @@
+.container {
+  width: 30rem;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; 
+  overflow: hidden;
+}
+
+ .search-wrapper {
+  position: relative; 
+} 
+
+.textbox {
+  border: 1px solid transparent;
+  height: 2.5rem; 
+  outline: none;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem; 
+  transition: border-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
+  width: 100%;
+  font-size: 1rem; 
+  border-radius: 6px;
+  padding-right: 2.5rem; /* Space for the search icon */
+}
+
+.textbox:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+  transition: border-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none; /* Prevents the icon from blocking input clicks */
+}
+
+.suggestions {
+  border: 1px solid #ddd;
+  width: 100%;
+  height: fit-content;
+  max-height: 20rem;
+  overflow-y: auto; /* Changed from scroll to auto for better behavior */
+  position: absolute;
+  background-color: white;
+  z-index: 10;
+  margin-top: 0.25rem; /* Slight gap between input and suggestions */
+  border-radius: 6px; /* Rounded corners for suggestions */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for suggestions */
+}
+
+.suggestions.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); /* Subtle slide up animation when hidden */
+  transition: opacity 150ms ease-in-out, visibility 0s ease-in-out 150ms, transform 150ms ease-in-out;
+}
+
+.suggestions:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Reset transform when visible */
+  transition: opacity 150ms ease-in-out, visibility 150ms ease-in-out 0s, transform 150ms ease-in-out;
+}
+
+.suggestion {
+  cursor: pointer;
+  padding: 0.75rem 1rem; /* Increased padding for better touch targets */
+  height: auto; /* Adjust height based on content */
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: background-color 150ms ease-in-out;
+}
+
+.suggestion:hover {
+  background-color: #f8f9fa; 
+}
+
+.suggestion strong {
+  font-weight: bold;
+} 
