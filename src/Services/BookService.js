@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { api } from './api';
 
 export const addBook = async (book) => {
@@ -8,17 +7,16 @@ export const addBook = async (book) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
-export const editBook = async (title,book) => {
+export const editBook = async (title, book) => {
   try {
     const response = await api.patch(`http://localhost:9091/admin/updateDetailsPatch/${title}`, book);
     return response.data;
   } catch (error) {
     throw error;
   }
-}
-
+};
 
 export const deleteBook = async (title) => {
   try {
@@ -27,7 +25,7 @@ export const deleteBook = async (title) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getBookByTitle = async (title) => {
   try {
@@ -36,4 +34,31 @@ export const getBookByTitle = async (title) => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const getAllBooks = async () => {
+  try {
+    const response = await api.get('http://localhost:9091/getAllBooks');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getBookById = async (id) => {
+  try {
+    const response = await api.get(`http://localhost:9091/searchBook/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const searchBooks = async (query) => {
+  try {
+    const response = await api.get(`http://localhost:9091/books/search/${query}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

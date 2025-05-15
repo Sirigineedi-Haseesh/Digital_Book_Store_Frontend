@@ -5,7 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { UserContext } from '../../context/UserContext';
 import { saveOrder } from '../../Services/OrderService'; 
-import { getUser } from '../../Services/UserService'; 
+import { getUser } from '../../Services/UserService';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 const Cart = ({ updateCartBadge }) => {
@@ -36,8 +37,8 @@ const Cart = ({ updateCartBadge }) => {
     updateCartBadge(totalItems);
   };
 
-  const handleRemoveItem = (bookId, bookType) => {
-    const updatedCart = cartItems.filter((item) => !(item.bookId === bookId && item.bookType === bookType));
+  const handleRemoveItem = (bookId, isbn) => {
+    const updatedCart = cartItems.filter((item) => !(item.bookId === bookId && item.isbn === isbn));
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
 
@@ -71,17 +72,14 @@ const Cart = ({ updateCartBadge }) => {
 
   const createOrder = async () => {
     let user = await getUser(localStorage.getItem('username'));
+    console.log(user);
     try {
       const orderDetails = {
         userId: user.userId, // Assuming `user` is available from UserContext
-        orderDate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-        totalAmount: discountedTotal, // Use the discounted total amount
         orderBooks: cartItems.map((item) => ({
-          bookId: item.bookId, // Use bookId from books.json
+          bookId: item.id, // Use bookId from books.json
           quantity: item.quantity,
-          price: item.price,
         })), // Map cart items to orderBooks
-        orderStatus: 'PENDING', // Default order status
       };
       console.log(orderDetails); // Log order details for debugging
       const savedOrder = await saveOrder(orderDetails); // Call the saveOrder function
@@ -118,7 +116,7 @@ const Cart = ({ updateCartBadge }) => {
                 <p>Your cart is empty.</p>
               ) : (
                 cartItems.map(item => (
-                  <div className="row cart-item mb-3" key={`${item.bookId}-${item.bookType}`}>
+                  <div className="row cart-item mb-3" key={`${item.bookId}-${item.isbn}`}>
                     <div className="col-md-3">
                       <img src={item.image} alt={item.name} className="img-fluid rounded" />
                     </div>
@@ -135,7 +133,7 @@ const Cart = ({ updateCartBadge }) => {
                     </div>
                     <div className="col-md-2 text-end">
                       <p className="fw-bold">₹{(item.price * item.quantity).toFixed(2)}</p>
-                      <button className="btn btn-sm btn-outline-danger" onClick={() => handleRemoveItem(item.bookId, item.bookType)}>
+                      <button className="btn btn-sm btn-outline-danger" onClick={() => handleRemoveItem(item.bookId, item.isbn)}>
                         <i className="bi bi-trash"></i>
                       </button>
                     </div>

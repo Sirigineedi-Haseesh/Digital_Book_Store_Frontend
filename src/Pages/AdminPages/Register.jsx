@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
- // Backend connection
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { saveUser } from '../services/UserService';
+// Correct path for UserService
+import ErrorAlert from '../../Components/ErrorAlert'; // Correct path for ErrorAlert
+import { saveUser } from '../../Services/UserService';
 
 const CreateAccountForm = () => {
   const navigate = useNavigate();
@@ -30,12 +31,15 @@ const CreateAccountForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Validate username length
     if (formData.username.length < 3 || formData.username.length > 20) {
       setErrorMessage("Username must be between 3 to 20 characters!");
       setIsLoading(false);
       return;
     }
-    
+
+    // Validate email format
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(formData.email)) {
       setErrorMessage("Please enter a valid email address!");
@@ -43,19 +47,23 @@ const CreateAccountForm = () => {
       return;
     }
 
-    // Password validation (at least 6 characters)
+    // Validate password length
     if (formData.password.length < 6) {
       setErrorMessage("Password must be at least 6 characters long!");
       setIsLoading(false);
       return;
     }
-    if (!formData.terms) {
-      setErrorMessage("You must agree to the terms of service!");
+
+    // Validate password match
+    if (formData.password !== formData.repeatPassword) {
+      setErrorMessage("Passwords do not match!");
       setIsLoading(false);
       return;
     }
-    if(formData.email == null || formData.email == undefined || formData.email == "") {
-      setErrorMessage("Email is required!");
+
+    // Validate terms agreement
+    if (!formData.terms) {
+      setErrorMessage("You must agree to the terms of service!");
       setIsLoading(false);
       return;
     }
@@ -69,22 +77,21 @@ const CreateAccountForm = () => {
         password: formData.password,
         role: "USER",
       });
-    
+
       if (response) {
         console.log("Account created successfully!", response);
         navigate('/'); // Redirect upon successful signup
       }
     } catch (error) {
       console.error("Error saving user:", error);
-    
+
       if (error.response && error.response.data) {
-        setErrorMessage(error.response.data);
+        setErrorMessage(typeof error.response.data === 'string' ? error.response.data : "An error occurred. Please try again.");
       } else {
         setErrorMessage("Failed to create account. Please try again.");
       }
-    }
-    finally {
-      setIsLoading(false); // ✅ Stop loading after response
+    } finally {
+      setIsLoading(false); // Stop loading after response
     }
   };
 
@@ -110,9 +117,7 @@ const CreateAccountForm = () => {
           )}
 
           {/* Error Message Display */}
-          {errorMessage && (
-            <div className="alert alert-danger text-center">{errorMessage}</div>
-          )}
+          <ErrorAlert message={errorMessage} />
 
           {/* Form Heading */}
           <h2 className="text-center mb-4">CREATE ACCOUNT</h2>
@@ -139,11 +144,36 @@ const CreateAccountForm = () => {
               <label htmlFor="password" className="form-label">Password</label>
               <input type="password" className="form-control" id="password" placeholder="Enter your password" value={formData.password} onChange={handleChange} required />
             </div>
+            <div className="mb-3">
+              <label htmlFor="repeatPassword" className="form-label">Repeat Password</label>
+              <input type="password" className="form-control" id="repeatPassword" placeholder="Repeat your password" value={formData.repeatPassword} onChange={handleChange} required />
+            </div>
             <div className="form-check mb-3">
               <input type="checkbox" className="form-check-input" id="terms" checked={formData.terms} onChange={handleChange} required />
               <label className="form-check-label" htmlFor="terms">I agree to the Terms of Service</label>
             </div>
-            <button type="submit" className="btn btn-primary w-100" onClick={handleSubmit} disabled={isLoading} >{isLoading ? "Submitting..." : "SIGN UP"}</button>
+            <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
+              {isLoading ? "Submitting..." : "SIGN UP"}
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary w-100 mt-2"
+              onClick={() => {
+                setFormData({
+                  username: '',
+                  fullName: '',
+                  email: '',
+                  address: '',
+                  password: '',
+                  repeatPassword: '',
+                  terms: false,
+                });
+                setErrorMessage('');
+              }}
+              disabled={isLoading}
+            >
+              RESET
+            </button>
           </form>
 
           {/* Login Link */}

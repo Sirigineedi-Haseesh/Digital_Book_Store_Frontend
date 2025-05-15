@@ -1,49 +1,69 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminCard from '../../Components/AdminCard';
 
 const AdminPanel = () => {
   return (
     <div>
-        <div className="container">
+      {/* Navigation Bar */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">Admin Panel</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <a className="nav-link" href="/allusers">Users</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/managebooks">Books</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/orders">Orders</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div className="container">
         <header className="d-flex justify-content-between align-items-center py-3">
-            <h1>Admin Page</h1>
-            <a href="#" className="btn btn-outline-secondary">
+          <h1>Admin Page</h1>
+          <a href="/userProfile" className="btn btn-outline-secondary">
             <i className="fas fa-user"></i> My Account
-            </a>
+          </a>
         </header>
         <div className="alert alert-success text-center" role="alert">
-            Welcome to Admin Panel!
+          Welcome to Admin Panel!
         </div>
         <div className="row">
-            <div className="col-md-4">
-            <div className="card text-center">
-                <div className="card-body">
-                <img src="users.jpg" alt="Book Store" width="150" height="150" />
-                <h5 className="card-title">Registered Users</h5>
-                <a href="/allusers" className="btn btn-success w-100">View</a>
-                </div>
-            </div>
-            </div>
-            <div className="col-md-4">
-            <div className="card text-center">
-                <div className="card-body">
-                <img src="SignupBackground.jpg" alt="Book Store" width="150" height="150" style={{ borderRadius: '30px' }}/>
-                <h5 className="card-title">Books</h5>
-                <a href="/managebooks" className="btn btn-success w-100">View & Manage Books</a>
-                </div>
-            </div>
-            </div>
-            <div className="col-md-4">
-            <div className="card text-center">
-                <div className="card-body">
-                <img src="orders.jpg" alt="Book Store" width="150" height="150" style={{ borderRadius: '30px' }}/>
-                <h5 className="card-title">Orders</h5>
-                <a href="/orders" className="btn btn-success w-100">Orders</a>
-                </div>
-            </div>
-            </div>
+          <AdminCard
+            imageSrc="users.jpg"
+            title="Registered Users"
+            buttonText="View"
+            buttonLink="/allusers"
+          />
+          <AdminCard
+            imageSrc="SignupBackground.jpg"
+            title="Books"
+            buttonText="View & Manage Books"
+            buttonLink="/managebooks"
+          />
+          <AdminCard
+            imageSrc="orders.jpg"
+            title="Orders"
+            buttonText="Orders"
+            buttonLink="/orders"
+          />
         </div>
-        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="text-center py-3 mt-4">
+        <p>&copy; 2025 BookStore. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

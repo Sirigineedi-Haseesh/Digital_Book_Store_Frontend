@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { addBook, editBook, getBookByTitle } from '../services/BookService';
+import { addBook, editBook, getBookByTitle } from '../../Services/BookService';
+import ErrorAlert from '../../Components/ErrorAlert';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 
-const AddBookForm = () => {
+const EditBookForm = () => {
   const { title } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +38,7 @@ const AddBookForm = () => {
           });
         } catch (error) {
           console.error('Error fetching book:', error);
+          setErrorMessage("Failed to fetch book details.");
         }
       };
 
@@ -87,7 +90,9 @@ const AddBookForm = () => {
       navigate('/managebooks');
     } catch (error) {
       console.error("Error saving book:", error);
-      setErrorMessage(error.response?.data || "Failed to save book. Please try again.");
+      setErrorMessage(
+        error.response?.data?.message || "Failed to save book. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -106,18 +111,10 @@ const AddBookForm = () => {
             </label>
           </div>
 
-          {isLoading && (
-            <div className="text-center">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          )}
+          {isLoading && <LoadingSpinner />}
 
           {/* Error Message Display */}
-          {errorMessage && (
-            <div className="alert alert-danger text-center">{errorMessage}</div>
-          )}
+          <ErrorAlert message={errorMessage} />
 
           {/* Form Heading */}
           <h2 className="text-center mb-4">{title ? "EDIT BOOK" : "ADD BOOK"}</h2>
@@ -155,6 +152,26 @@ const AddBookForm = () => {
             <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
               {isLoading ? "Submitting..." : title ? "UPDATE BOOK" : "ADD BOOK"}
             </button>
+            <button
+              type="button"
+              className="btn btn-secondary w-100 mt-2"
+              onClick={() => {
+                setFormData({
+                  isbn: '',
+                  title: '',
+                  category: '',
+                  price: '',
+                  authorName: '',
+                  images: '',
+                  stock: '',
+                });
+                setErrorMessage('');
+                setUpdatedFields({});
+              }}
+              disabled={isLoading}
+            >
+              RESET
+            </button>
           </form>
         </div>
       </div>
@@ -162,4 +179,4 @@ const AddBookForm = () => {
   );
 };
 
-export default AddBookForm;
+export default EditBookForm;

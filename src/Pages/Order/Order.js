@@ -1,115 +1,186 @@
-import React from 'react';
- import './Order.css';
+import React, { useEffect, useState } from 'react';
+import './Order.css';
+import { getUser } from '../../Services/UserService';
+import { getUserOrders } from '../../Services/OrderService';
+import { getBookById } from '../../Services/BookService'; // Assuming this service exists
 
- const Order = () => {
+const Order = ({ onNewOrder }) => {
+  const [orders, setOrders] = useState([]);
+  const [status, setStatus] = useState('PENDING'); // Default status is 'PENDING'
+  const [errorMessage, setErrorMessage] = useState(''); // State to store error messages
+
+  const fetchOrders = async () => {
+    try {
+      // Clear previous error message
+      setErrorMessage('');
+
+      // Retrieve user data
+      const username = localStorage.getItem('username');
+      if (!username) {
+        setErrorMessage('Username not found in localStorage.');
+        return;
+      }
+
+      const user = await getUser(username);
+      if (!user) {
+        setErrorMessage('User not found.');
+        return;
+      }
+
+      // Retrieve all orders for the user based on the selected status
+      const userOrders = await getUserOrders(user.userId, status);
+      if (!userOrders || userOrders.length === 0) {
+        setOrders([]); // Clear orders if none are found
+        setErrorMessage(`No ${status.toLowerCase()} orders found.`);
+        return;
+      }
+
+      // Fetch book details for all orders
+      const detailedOrders = await Promise.all(
+        userOrders.map(async (order) => {
+          const detailedBooks = await Promise.all(
+            order.orderBooks.map(async (orderBook) => {
+              const book = await getBookById(orderBook.bookId); // Fetch book details by bookId
+              return {
+                ...book,
+                quantity: orderBook.quantity, // Add quantity from the order
+              };
+            })
+          );
+          return {
+            ...order,
+            books: detailedBooks, // Add detailed book information to the order
+          };
+        })
+      );
+
+      // Reverse the order of the detailedOrders array
+      setOrders(detailedOrders.reverse());
+    } catch (error) {
+      console.error('Failed to fetch orders:', error);
+      setErrorMessage('Orders Not Found. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders(); // Call the async function whenever the status changes
+  }, [status]);
+
+  // Trigger fetchOrders when a new order is placed
+  useEffect(() => {
+    if (onNewOrder) {
+      fetchOrders();
+    }
+  }, [onNewOrder]);
+
+  // Function to calculate the estimated delivery date
+  const calculateEstimatedDelivery = () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 10); // Add 10 days to the current date
+    return currentDate.toLocaleDateString(); // Format the date as a readable string
+  };
+
   return (
     <div className="order-container p-4 rounded shadow">
-      <div className="invoice-header d-flex justify-content-between align-items-center mb-4">
-        <h5 className="mb-0">INVOICE <span className="text-primary font-weight-bold">#Y34XDHR</span></h5>
-        <div className="text-end">
-          <p className="mb-0">Expected Arrival <span className="text-muted">01/12/19</span></p>
-          <p className="mb-0">USPS <span className="font-weight-bold text-muted">234094567242423422898</span></p>
-        </div>
+      <h2 className="mb-4">Your Orders</h2>
+
+      {/* Buttons to filter orders by status */}
+      <div className="mb-4">
+        <button
+          className={`btn btn-outline-primary me-2 ${status === 'PENDING' ? 'active' : ''}`}
+          onClick={() => setStatus('PENDING')}
+        >
+          Pending Orders
+        </button>
+        <button
+          className={`btn btn-outline-primary me-2 ${status === 'CANCELLED' ? 'active' : ''}`}
+          onClick={() => setStatus('CANCELLED')}
+        >
+          Cancelled Orders
+        </button>
+        <button
+          className={`btn btn-outline-primary me-2 ${status === 'SHIPPED' ? 'active' : ''}`}
+          onClick={() => setStatus('SHIPPED')}
+        >
+          Shipped Orders
+        </button>
+        <button
+          className={`btn btn-outline-primary ${status === 'DELIVERED' ? 'active' : ''}`}
+          onClick={() => setStatus('DELIVERED')}
+        >
+          Delivered Orders
+        </button>
       </div>
 
-      <ul id="progressbar-2" className="progressbar d-flex justify-content-between mx-0 mt-0 mb-3 px-0 pt-0 pb-2">
-        <li className="step0 active text-center"></li>
-        <li className="step0 active text-center"></li>
-        <li className="step0 active text-center"></li>
-        <li className="step0 text-end"></li>
-      </ul>
+      {/* Display error message if no orders are found */}
+      {errorMessage && <p className="text-danger">{errorMessage}</p>}
 
-      <div className="d-flex justify-content-between">
-        <div className="d-flex flex-row gap-4">
-          <div className="d-flex align-items-center">
-            <i className="fas fa-clipboard-list fa-2x me-2 mb-0"></i>
-            <div>
-              <p className="fw-bold mb-1">Order</p>
-              <p className="fw-bold mb-0 text-muted">Processed</p>
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <i className="fas fa-box-open fa-2x me-2 mb-0"></i>
-            <div>
-              <p className="fw-bold mb-1">Order</p>
-              <p className="fw-bold mb-0 text-muted">Shipped</p>
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <i className="fas fa-shipping-fast fa-2x me-2 mb-0"></i>
-            <div>
-              <p className="fw-bold mb-1">Order</p>
-              <p className="fw-bold mb-0 text-muted">En Route</p>
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <i className="fas fa-home fa-2x me-2 mb-0"></i>
-            <div>
-              <p className="fw-bold mb-1">Order</p>
-              <p className="fw-bold mb-0 text-muted">Arrived</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Display orders if available */}
+      {orders.length > 0 && !errorMessage && (
+        orders.map((order) => (
+          <div key={order.orderId} className="card mb-4">
+            <div className="card-body">
+              <h5 className="card-title">Order ID: {order.orderId}</h5>
+              <p className="text-muted">Order Date: {order.orderDate}</p>
+              <p className="text-muted">Total Amount: ₹{order.totalAmount}</p>
 
-      <div className="card mt-4">
-        <div className="card-body">
-          <h5 className="card-title">Order Details</h5>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <img src="/book1.png" alt="Product" className="img-fluid rounded" style={{ maxWidth: '100px' }} />
-            <div className="flex-grow-1 ms-3">
-              <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Product</span>
-                <span className="text-muted">Awesome Widget</span>
+              <h6 className="mt-4">Books in this Order:</h6>
+              {order.books.map((book, index) => (
+                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                  <img
+                    src={book.images} // Use the image URL from the book details
+                    alt={book.title}
+                    className="img-fluid rounded"
+                    style={{ maxWidth: '100px' }}
+                  />
+                  <div className="flex-grow-1 ms-3">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="text-muted">Product</span>
+                      <span className="text-muted">{book.title}</span>
+                    </div>
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="text-muted">Quantity</span>
+                      <span className="text-muted">{book.quantity}</span>
+                    </div>
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="text-muted">Price</span>
+                      <span className="text-muted">₹{book.price}</span>
+                    </div>
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="text-muted">Category</span>
+                      <span className="text-muted">{book.category}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <h6 className="mt-4">Tracking Information:</h6>
+              <div className="d-flex justify-content-between mb-3">
+                <span className="text-muted">Carrier</span>
+                <span className="text-muted">USPS</span>
               </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Quantity</span>
-                <span className="text-muted">2</span>
+              <div className="d-flex justify-content-between mb-3">
+                <span className="text-muted">Tracking Number</span>
+                <span className="text-muted">234094567242423422898</span>
               </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Price</span>
-                <span className="text-muted">$50.00</span>
+              <div className="d-flex justify-content-between mb-3">
+                <span className="text-muted">Status</span>
+                <span className="text-muted">{order.orderStatus}</span>
               </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Description</span>
-                <span className="text-muted">A high-quality widget for all your needs.</span>
+              <div className="d-flex justify-content-between mb-3">
+                <span className="text-muted">Estimated Delivery</span>
+                <span className="text-muted">{calculateEstimatedDelivery()}</span>
               </div>
               <div className="d-flex justify-content-between mb-0">
-                <span className="text-muted">Order Date</span>
-                <span className="text-muted">01/01/19</span>
+                <span className="text-muted">Last Location</span>
+                <span className="text-muted">Coimbatore , TamilNadu</span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="card mt-4">
-        <div className="card-body">
-          <h5 className="card-title mb-4">Tracking Information</h5>
-          <div className="d-flex justify-content-between mb-3">
-            <span className="text-muted">Carrier</span>
-            <span className="text-muted">USPS</span>
-          </div>
-          <div className="d-flex justify-content-between mb-3">
-            <span className="text-muted">Tracking Number</span>
-            <span className="text-muted">234094567242423422898</span>
-          </div>
-          <div className="d-flex justify-content-between mb-3">
-            <span className="text-muted">Status</span>
-            <span className="text-muted">In Transit</span>
-          </div>
-          <div className="d-flex justify-content-between mb-3">
-            <span className="text-muted">Estimated Delivery</span>
-            <span className="text-muted">01/12/19</span>
-          </div>
-          <div className="d-flex justify-content-between mb-0">
-            <span className="text-muted">Last Location</span>
-            <span className="text-muted">New York, NY</span>
-          </div>
-        </div>
-      </div>
+        ))
+      )}
     </div>
   );
- };
+};
 
- export default Order;
+export default Order;

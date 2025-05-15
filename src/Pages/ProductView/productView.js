@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './productView.css'; // Import a dedicated CSS file for styling
+import { getAllBooks } from '../../Services/BookService'; 
 
 const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
   const { isbn } = useParams();
@@ -20,11 +21,13 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch('/books.json');
-        const books = await response.json();
-        const selectedProduct = books.find((item) => item.isbn === isbn);
+        const response = await getAllBooks();
+        const selectedProduct = response.find((item) => item.isbn === isbn);
         if (selectedProduct) {
-          setProduct(selectedProduct);
+          setProduct({
+            ...selectedProduct,
+            bookId: selectedProduct.inventory?.book?.bookId, // Safely access bookId
+          });
         } else {
           setError('Product not found.');
         }
@@ -42,13 +45,15 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
       id: product.bookId,
       name: product.title,
       price: product.price,
+      image: product.images,
+      isbn: product.isbn,
+      category: product.category,
       quantity,
-      bookType,
     };
 
     // Retrieve existing cart from localStorage or initialize a new one
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingItemIndex = cart.findIndex((item) => item.id === cartItem.id && item.bookType === cartItem.bookType);
+    const existingItemIndex = cart.findIndex((item) => item.id === cartItem.id && item.isbn === cartItem.isbn);
 
     if (existingItemIndex > -1) {
       // Update quantity if the item already exists in the cart
@@ -82,16 +87,16 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
       <div className="row">
         <div className="col-md-6">
           <img
-            src={product.image || 'https://via.placeholder.com/300'}
+            src={product.images}
             alt={product.title}
             className="product-image img-fluid rounded shadow"
           />
         </div>
         <div className="col-md-6">
           <div className="product-details">
-            <p><b>Author:</b> {product.author}</p>
-            <p><b>Description:</b> {product.description}</p>
-            <p><b>Price:</b> <span className="price">${product.price}</span></p>
+            <p><b>Author:</b> {product.authorName}</p>
+            <p><b>ISBN:</b> {product.isbn}</p>
+            <p><b>Price:</b> <span className="price">₹{product.price}</span></p>
           </div>
     
           <div className="row mb-3">

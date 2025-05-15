@@ -1,128 +1,179 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect } from 'react';
+import { getOrders, updateOrderStatus,searchOrdersByDate,searchOrders } from '../../Services/OrderService';
+import SearchBar from '../../Components/SearchBar/SearchBar';
+import ReusableTable from '../../Components/ReusableTable';
+import ErrorAlert from '../../Components/ErrorAlert';
+import PageHeader from '../../Components/PageHeader';
 
-const OrderList = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [orders, setOrders] = useState([
-    { orderId: 101, customerName: "Alice", date: "2025-05-01", status: "Pending", totalPrice: 250 },
-    { orderId: 102, customerName: "Bob", date: "2025-05-03", status: "Shipped", totalPrice: 180 },
-    { orderId: 103, customerName: "Charlie", date: "2025-05-05", status: "Delivered", totalPrice: 320 },
-  ]);
+const OrdersPage = () => {
+  const [orders, setOrders] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchDate, setSearchDate] = useState('');
+  const [error, setError] = useState(null);
   const [statusChange, setStatusChange] = useState({});
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const [ordersPerPage] = useState(10); // Number of orders per page
 
-  const handleSearch = () => {
-    let filteredOrders = orders.filter(order => 
-      order.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.orderId.toString().includes(searchQuery) ||
-      order.status.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = await getOrders();
+        setOrders(data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        setError('Failed to fetch orders.');
+      }
+    };
 
-    if (startDate && endDate) {
-      filteredOrders = filteredOrders.filter(order => {
-        const orderDate = new Date(order.date);
-        return orderDate >= new Date(startDate) && orderDate <= new Date(endDate);
-      });
-    }
-
-    setOrders(filteredOrders);
-  };
+    fetchOrders();
+  }, []);
 
   const handleStatusChange = (orderId, newStatus) => {
-    setStatusChange(prev => ({ ...prev, [orderId]: newStatus }));
+    setStatusChange((prev) => ({ ...prev, [orderId]: newStatus }));
   };
 
-  const handleSave = (orderId) => {
-    setOrders(orders.map(order => 
-      order.orderId === orderId ? { ...order, status: statusChange[orderId] || order.status } : order
-    ));
-    alert(`Order #${orderId} status updated successfully!`);
+  const handleSave = async (orderId) => {
+    try {
+      const newStatus = statusChange[orderId];
+      if (newStatus) {
+        await updateOrderStatus(orderId, newStatus);
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.orderId === orderId ? { ...order, orderStatus: newStatus } : order
+          )
+        );
+        setStatusChange((prev) => {
+          const updated = { ...prev };
+          delete updated[orderId];
+          return updated;
+        });
+      }
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      setError('Failed to update order status.');
+    }
   };
+
+  const handleSearch = async () => {
+    try {
+      let data = [];
+  
+      setError(null);
+  
+      if (searchDate && searchQuery) {
+        // Step 1: Fetch orders by date first
+        data = await searchOrdersByDate(searchDate);
+        // Step 2: Filter by search query dynamically on the frontend
+        data = data.filter(order =>
+          order.orderId.toString().includes(searchQuery) ||
+          order.userId.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+          order.orderStatus.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+  
+      } else if (searchDate) {
+        data = await searchOrdersByDate(searchDate);
+      } else if (searchQuery) {
+        data = await searchOrders(searchQuery);
+      } else {
+        data = await getOrders();
+      }
+  
+      setOrders(data);
+    } catch (error) {
+      console.error('Error searching orders:', error);
+      setError('Failed to search orders.');
+    }
+  };
+  
+
+  // Pagination logic
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const columns = [
+    { header: 'Order ID', key: 'orderId' },
+    { header: 'User ID', key: 'userId' },
+    { header: 'Order Date', key: 'orderDate' },
+    {
+      header: 'Status',
+      render: (order) => (
+        <select
+          className="form-select"
+          value={statusChange[order.orderId] || order.orderStatus}
+          onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
+        >
+          <option value="PENDING">Pending</option>
+          <option value="SHIPPED">Shipped</option>
+          <option value="DELIVERED">Delivered</option>
+        </select>
+      ),
+    },
+    {
+      header: 'Total Amount',
+      render: (order) => `₹${order.totalAmount.toFixed(2)}`, // Add rupee symbol and format to 2 decimal places
+    },
+  ];
+
+  const actions = [
+    {
+      label: 'Save',
+      variant: 'primary',
+      onClick: (order) => handleSave(order.orderId),
+    },
+  ];
 
   return (
-    <div className="container mt-5" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
+    <div
+      className="container mt-10"
+      style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}
+    >
+      <PageHeader title="Manage Orders" />
       
-      {/* Logo and Header */}
-      <div className="text-start mb-4">
-        <img src="logo.jpg" alt="Book Store" width="50" height="50"/>
-        <label style={{ fontFamily: 'Times New Roman' }}>PageNest</label>
-      </div>
-      
-      {/* Search Bar and Filters */}
-      <div className="d-flex justify-content-between mb-3">
-        <input 
-          type="text" 
-          className="form-control me-2" 
-          placeholder="Search by order ID, customer name, or status" 
-          value={searchQuery} 
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <input 
-          type="date" 
-          className="form-control me-2" 
-          value={startDate} 
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-        <input 
-          type="date" 
-          className="form-control me-2" 
-          value={endDate} 
-          onChange={(e) => setEndDate(e.target.value)}
-        />
-        <button className="btn btn-primary" onClick={handleSearch}>Search</button>
+      {/* Search Section */}
+      <div className="row mb-3 align-items-center">
+        {/* Date Search */}
+        <div className="col-md-4 d-flex flex-column justify-content-start ">
+          <input
+            type="date"
+            id="searchDate"
+            className="form-control"
+            style={{ height: '48px' }}
+            value={searchDate}
+            onChange={(e) => setSearchDate(e.target.value)}
+          />
+        </div>
+
+        {/* Search Bar */}
+        <div className="col-md-8">
+          <SearchBar
+            placeholder="Search by order ID, user ID, or status"
+            searchQuery={searchQuery}
+            onInputChange={setSearchQuery}
+            onSearch={handleSearch}
+          />
+        </div>
       </div>
 
-      {/* Order List Table */}
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>ORDER ID</th>
-            <th>CUSTOMER NAME</th>
-            <th>ORDER DATE</th>
-            <th>STATUS</th>
-            <th>TOTAL PRICE</th>
-            <th>ACTIONS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map(order => (
-            <tr key={order.orderId}>
-              <td>{order.orderId}</td>
-              <td>{order.customerName}</td>
-              <td>{order.date}</td>
-              <td>
-                <select 
-                  className="form-select" 
-                  value={statusChange[order.orderId] || order.status} 
-                  onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
-                </select>
-              </td>
-              <td>${order.totalPrice}</td>
-              <td>
-                <button 
-                  className="btn btn-primary btn-sm" 
-                  onClick={() => handleSave(order.orderId)}
-                >
-                  Save
+      <ErrorAlert message={error} />
+      <ReusableTable columns={columns} data={currentOrders} actions={actions} />
+      <div className="d-flex justify-content-center mt-3">
+        <nav>
+          <ul className="pagination">
+            {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, index) => (
+              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                <button onClick={() => paginate(index + 1)} className="page-link">
+                  {index + 1}
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Pagination Controls */}
-      <div className="d-flex justify-content-between">
-        <button className="btn btn-secondary">Previous</button>
-        <button className="btn btn-secondary">Next</button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </div>
   );
 };
 
-export default OrderList;
+export default OrdersPage;

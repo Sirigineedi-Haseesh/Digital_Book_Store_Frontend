@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { addBook } from '../services/BookService';
+import { addBook } from '../../Services/BookService';
+import ErrorAlert from '../../Components/ErrorAlert';
 
 const AddBookForm = () => {
   const navigate = useNavigate();
@@ -30,7 +31,14 @@ const AddBookForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Validate required fields
+    if (!formData.isbn || !formData.title || !formData.category || !formData.price || !formData.authorName || !formData.images || !formData.stock) {
+      setErrorMessage("All fields are required!");
+      setIsLoading(false);
+      return;
+    }
 
+    // Validate price and stock
     if (formData.price <= 0) {
       setErrorMessage("Price must be a positive number!");
       setIsLoading(false);
@@ -39,6 +47,13 @@ const AddBookForm = () => {
 
     if (formData.stock < 0) {
       setErrorMessage("Stock cannot be negative!");
+      setIsLoading(false);
+      return;
+    }
+
+    // Optional: Validate ISBN length
+    if (formData.isbn.length !== 13) {
+      setErrorMessage("ISBN must be 13 characters long!");
       setIsLoading(false);
       return;
     }
@@ -62,14 +77,13 @@ const AddBookForm = () => {
       console.error("Error saving book:", error);
 
       if (error.response && error.response.data) {
-        setErrorMessage(error.response.data);
+        setErrorMessage(typeof error.response.data === 'string' ? error.response.data : "An error occurred. Please try again.");
       } else {
         setErrorMessage("Failed to add book. Please try again.");
       }
     } finally {
       setIsLoading(false); // ✅ Stop loading after response
     }
-
   };
 
   return (
@@ -94,9 +108,7 @@ const AddBookForm = () => {
           )}
 
           {/* Error Message Display */}
-          {errorMessage && (
-            <div className="alert alert-danger text-center">{errorMessage}</div>
-          )}
+          <ErrorAlert message={errorMessage} />
 
           {/* Form Heading */}
           <h2 className="text-center mb-4">ADD BOOK</h2>
@@ -125,13 +137,34 @@ const AddBookForm = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="images" className="form-label">Image URL</label>
-             <input type="text" className="form-control" id="images" placeholder="Enter image URL" value={formData.images} onChange={handleChange} required />
+              <input type="text" className="form-control" id="images" placeholder="Enter image URL" value={formData.images} onChange={handleChange} required />
             </div>
             <div className="mb-3">
               <label htmlFor="stock" className="form-label">Stock</label>
               <input type="number" className="form-control" id="stock" placeholder="Enter stock quantity" value={formData.stock} onChange={handleChange} required />
             </div>
-            <button type="submit" className="btn btn-primary w-100" onClick={handleSubmit} disabled={isLoading} >{isLoading ? "Submitting..." : "ADD BOOK"}</button>
+            <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
+              {isLoading ? "Submitting..." : "ADD BOOK"}
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary w-100 mt-2"
+              onClick={() => {
+                setFormData({
+                  isbn: '',
+                  title: '',
+                  category: '',
+                  price: '',
+                  authorName: '',
+                  images: '',
+                  stock: '',
+                });
+                setErrorMessage('');
+              }}
+              disabled={isLoading}
+            >
+              RESET
+            </button>
           </form>
         </div>
       </div>

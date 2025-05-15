@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { addBook, editBook, deleteBook } from '../services/BookService';
-import { getBooks } from '../services/UserService';
+import { searchBooks, deleteBook } from '../../Services/BookService';
+import { getBooks } from '../../Services/UserService';
+import SearchBar from '../../Components/SearchBar/SearchBar';
+import ReusableTable from '../../Components/ReusableTable';
+import ErrorAlert from '../../Components/ErrorAlert';
+import PageHeader from '../../Components/PageHeader';
+import ActionButton from '../../Components/ActionButton';
+
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBooks = async () => {
+      setIsLoading(true);
       try {
         const data = await getBooks();
         setBooks(data);
+        setError(null);
       } catch (error) {
         console.error('Error fetching books:', error);
+        setError('Failed to fetch books.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -22,17 +36,18 @@ const BooksPage = () => {
   }, []);
 
   const handleDelete = async (title) => {
-    try {
-      if (window.confirm(`Are you sure you want to delete book with title ${title}?`)) {
+    if (window.confirm(`Are you sure you want to delete the book titled "${title}"?`)) {
+      try {
         await deleteBook(title);
-        setBooks(books.filter(book => book.title !== title));
+        setBooks(books.filter((book) => book.title !== title));
+      } catch (error) {
+        console.error('Error deleting book:', error);
+        setError('Failed to delete book.');
       }
-    } catch (error) {
-      console.error('Error deleting book:', error);
     }
   };
 
-  const handleEdit = async (title) => {
+  const handleEdit = (title) => {
     navigate('/editbook/' + title);
   };
 
@@ -40,50 +55,90 @@ const BooksPage = () => {
     navigate('/addbooks');
   };
 
+  const handleSearch = async () => {
+    setIsLoading(true);
+    try {
+      if (!searchQuery) {
+        const data = await getBooks();
+        setBooks(data);
+        setError(null);
+      } else {
+        const results = await searchBooks(searchQuery);
+        setBooks(results);
+        setError(null);
+      }
+    } catch (error) {
+      console.error('Error searching books:', error);
+      setError('Failed to search books.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const columns = [
+    { header: 'Book Title', key: 'title' },
+    { header: 'Category', key: 'category' },
+    { header: 'Author', key: 'authorName' },
+    { header: 'ISBN', key: 'isbn' },
+    { header: 'Price', key: 'price' },
+    { header: 'Image', render: (book) => <img src={book.images} alt={book.title} style={{ width: '50px' }} /> },
+    { header: 'Stock', render: (book) => book.inventory?.stock || 'N/A' }, // Access nested stock
+  ];
+
+  const actions = [
+    {
+      label: 'Edit',
+      variant: 'warning',
+      onClick: (book) => handleEdit(book.title),
+    },
+    {
+      label: 'Delete',
+      variant: 'danger',
+      onClick: (book) => handleDelete(book.title),
+    },
+  ];
+
   return (
     <div className="container mt-10" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
-      <div className="text-start mb-4">
-        <img src="logo.jpg" alt='Book Store' width="50" height="50"/>
-        <label style={{ fontFamily: 'Times New Roman' }}>PageNest</label>
-      </div>
+      <PageHeader title="Manage Books" />
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Books Page</h2>
-        <Button variant="primary" onClick={handleCreateBook}>Add Book</Button>
+        <ActionButton label="Add Book" onClick={handleCreateBook} />
       </div>
-      <Table striped bordered hover>
-        <thead className="thead-light">
-          <tr>
-            <th>Book Title</th>
-            <th>Category</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Stock</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((book, index) => (
-            <tr key={index}>
-              <td>{book.title}</td>
-              <td>{book.category}</td>
-              <td>{book.authorName}</td>
-              <td>{book.isbn}</td>
-              <td>{book.price}</td>
-              <td><img src={book.images} alt={book.title} style={{ width: '50px' }} /></td>
-              <td>{book.inventory.stock}</td>
-              <td>
-                <Button variant="warning" className="mr-2" onClick={() => handleEdit(book.title)}>Edit</Button>
-              </td>
-              <td>
-                <Button variant="danger" className="ml-2" onClick={() => handleDelete(book.title)}>Delete</Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <SearchBar
+        placeholder="Search Here..."
+        searchQuery={searchQuery}
+        onInputChange={setSearchQuery}
+        onSearch={handleSearch}
+      />
+      <ErrorAlert message={error} />
+      {isLoading && (
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
+      <ReusableTable columns={columns} data={currentBooks} actions={actions} />
+      <div className="d-flex justify-content-center mt-3">
+        <nav>
+          <ul className="pagination">
+            {Array.from({ length: Math.ceil(books.length / booksPerPage) }, (_, index) => (
+              <li key={index} className="page-item">
+                <button onClick={() => paginate(index + 1)} className="page-link">
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 };
