@@ -8,6 +8,7 @@ const Order = ({ onNewOrder }) => {
   const [orders, setOrders] = useState([]);
   const [status, setStatus] = useState('PENDING'); // Default status is 'PENDING'
   const [errorMessage, setErrorMessage] = useState(''); // State to store error messages
+  const [hasReloaded, setHasReloaded] = useState(false); // State to track if the page has reloaded
 
   const fetchOrders = async () => {
     try {
@@ -81,6 +82,7 @@ const Order = ({ onNewOrder }) => {
   };
 
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div className="order-container p-4 rounded shadow">
       <h2 className="mb-4">Your Orders</h2>
 
@@ -179,6 +181,7 @@ const Order = ({ onNewOrder }) => {
           </div>
         ))
       )}
+    </div>
     </div>
   );
 };

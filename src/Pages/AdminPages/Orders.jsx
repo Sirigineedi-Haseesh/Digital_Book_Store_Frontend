@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { getOrders, updateOrderStatus,searchOrdersByDate,searchOrders } from '../../Services/OrderService';
-import SearchBar from '../../Components/SearchBar/SearchBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { getOrders, updateOrderStatus, searchOrdersByDate, searchOrders } from '../../Services/OrderService';
+import PageHeader from '../../Components/PageHeader';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 import ReusableTable from '../../Components/ReusableTable';
 import ErrorAlert from '../../Components/ErrorAlert';
-import PageHeader from '../../Components/PageHeader';
+import SearchBar from '../../Components/SearchBar/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 const OrdersPage = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(10);
+  const [statusChange, setStatusChange] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [searchDate, setSearchDate] = useState('');
-  const [error, setError] = useState(null);
-  const [statusChange, setStatusChange] = useState({});
-  const [currentPage, setCurrentPage] = useState(1); // Current page state
-  const [ordersPerPage] = useState(10); // Number of orders per page
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -21,7 +26,9 @@ const OrdersPage = () => {
         setOrders(data);
       } catch (error) {
         console.error('Error fetching orders:', error);
-        setError('Failed to fetch orders.');
+        setError('Failed to fetch orders. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -50,7 +57,7 @@ const OrdersPage = () => {
       }
     } catch (error) {
       console.error('Error updating order status:', error);
-      setError('Failed to update order status.');
+      setError('Failed to update order status. Please try again later.');
     }
   };
 
@@ -61,9 +68,7 @@ const OrdersPage = () => {
       setError(null);
   
       if (searchDate && searchQuery) {
-        // Step 1: Fetch orders by date first
         data = await searchOrdersByDate(searchDate);
-        // Step 2: Filter by search query dynamically on the frontend
         data = data.filter(order =>
           order.orderId.toString().includes(searchQuery) ||
           order.userId.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -84,9 +89,11 @@ const OrdersPage = () => {
       setError('Failed to search orders.');
     }
   };
-  
 
-  // Pagination logic
+  const handleDetails = (orderId) => {
+    navigate(`/orderdetails/${orderId}`);
+  }
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -113,7 +120,7 @@ const OrdersPage = () => {
     },
     {
       header: 'Total Amount',
-      render: (order) => `₹${order.totalAmount.toFixed(2)}`, // Add rupee symbol and format to 2 decimal places
+      render: (order) => `₹${order.totalAmount.toFixed(2)}`,
     },
   ];
 
@@ -123,18 +130,21 @@ const OrdersPage = () => {
       variant: 'primary',
       onClick: (order) => handleSave(order.orderId),
     },
+    {
+      label: 'View',
+      variant: 'primary',
+      onClick: (order) => handleDetails(order.orderId),
+    }
   ];
 
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div
-      className="container mt-10"
+      className="container mt-3"
       style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}
     >
       <PageHeader title="Manage Orders" />
-      
-      {/* Search Section */}
       <div className="row mb-3 align-items-center">
-        {/* Date Search */}
         <div className="col-md-4 d-flex flex-column justify-content-start ">
           <input
             type="date"
@@ -145,8 +155,6 @@ const OrdersPage = () => {
             onChange={(e) => setSearchDate(e.target.value)}
           />
         </div>
-
-        {/* Search Bar */}
         <div className="col-md-8">
           <SearchBar
             placeholder="Search by order ID, user ID, or status"
@@ -156,9 +164,12 @@ const OrdersPage = () => {
           />
         </div>
       </div>
-
       <ErrorAlert message={error} />
-      <ReusableTable columns={columns} data={currentOrders} actions={actions} />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <ReusableTable columns={columns} data={currentOrders} actions={actions} />
+      )}
       <div className="d-flex justify-content-center mt-3">
         <nav>
           <ul className="pagination">
@@ -172,6 +183,7 @@ const OrdersPage = () => {
           </ul>
         </nav>
       </div>
+    </div>
     </div>
   );
 };

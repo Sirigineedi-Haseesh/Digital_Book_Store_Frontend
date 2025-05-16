@@ -95,6 +95,7 @@ const UserList = () => {
   ];
 
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div className="container mt-5" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
       <PageHeader title="PageNest" /> {/* Use the PageHeader component */}
       <ErrorAlert message={error} /> {/* Use the ErrorAlert component */}
@@ -119,6 +120,7 @@ const UserList = () => {
           </ul>
         </nav>
       </div>
+    </div>
     </div>
   );
 };

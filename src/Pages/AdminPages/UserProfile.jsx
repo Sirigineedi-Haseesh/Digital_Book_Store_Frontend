@@ -20,6 +20,7 @@ const UserProfile = () => {
       try {
         const user = await getUser(localStorage.getItem("username"));
         console.log(localStorage.getItem("username"));
+        console.log(user);
         setUserProfile(user);
       } catch (error) {
         console.error("Error fetching user profile:", error);

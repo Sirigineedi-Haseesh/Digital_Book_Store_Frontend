@@ -1,128 +1,146 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import './Login.css';
 import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from "jwt-decode"; // Correct import
 import { authenticate } from '../../Services/UserService';
-
-function LoginPage() {
+import 'animate.css';
+import { jwtDecode } from "jwt-decode";
+ 
+function LoginPage() { // Receive onLogin prop
+ 
   const navigate = useNavigate();
-
   const [user, setUser] = useState({ username: '', password: '' });
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleSubmitregister = (event) => {
+  const [isLoading, setIsLoading] = useState(true);
+ 
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        // Assuming your token contains a 'role' claim
+        const userRole = decodedToken.role;
+        if (userRole === 'ROLE_ADMIN') {
+          navigate('/admin'); // Navigate to admin panel for admin users
+        } else {
+          navigate('/home'); // Navigate to home for regular users
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error); // Log the error for debugging
+        setIsLoading(false); // Token is invalid or expired, allow login to proceed
+      }
+    } else {
+      // No token, allow login to proceed
+      setIsLoading(false);
+    }
+  }, [navigate]); // Include onLogin in dependency array
+ 
+  const handleRegisterClick = (event) => {
     event.preventDefault();
-    navigate('/signup');
+    navigate('/signup'); // Corrected navigation path
   };
-
-  const handleSubmitform = (event) => {
+ 
+  const handleInputChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+ 
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    authenticateUser();
-  };
-
-  const handleChange = (e) => {
-    const login = {
-      ...user,
-      [e.target.name]: e.target.value,
-    };
-    setUser(login);
-  };
-
-  const authenticateUser = async () => {
+    setIsLoading(true); // Set loading to true when the login process starts
     try {
       const response = await authenticate(user);
-      console.log("Authentication Response:", response);
-
       if (response && response.token) {
         const token = response.token;
         localStorage.setItem('jwtToken', token);
-        console.log("JWT Token from login:", token);
-
+        localStorage.setItem('username', user.username); // Store username in local storage
+        // Update login status in App
+       
         const decodedToken = jwtDecode(token);
-        localStorage.setItem('username', decodedToken.sub);
-        console.log("Username:", decodedToken.sub);
-        console.log("Role:", decodedToken.role);
-
-        // Redirect based on role
-        if (decodedToken.role === "ROLE_ADMIN") {
+        const userRole = decodedToken.role; // Assuming your token contains a 'role' claim
+        console.log('Decoded token:', decodedToken); // Log the decoded token for debugging
+        console.log(userRole)
+       
+        if (userRole === 'ROLE_ADMIN') {
           navigate('/admin');
+          window.location.reload(); // Navigate to admin panel for admin users
         } else {
           navigate('/home');
+          window.location.reload(); // Navigate to home for regular users
         }
+      } else if (response && response.message) {
+        setErrorMessage(response.message);
+        setIsLoading(false); // Set loading to false if login fails
       } else {
-        setErrorMessage("Invalid username/password. Please try again!");
+        setErrorMessage("Invalid username or password. Please try again.");
+        setIsLoading(false); // Set loading to false if login fails
       }
     } catch (error) {
-      console.error('Error logging in:', error);
-      if (error.response && error.response.data) {
-        setErrorMessage(error.response.data.message || "Invalid username/password. Please try again!");
-      } else {
-        setErrorMessage("An unexpected error occurred. Please try again later.");
-      }
+      console.error('Login failed:', error);
+      setErrorMessage("Invalid username or password. Please try again.");
+      setIsLoading(false); // Set loading to false if there's an error during login
     }
   };
-
+ 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+ 
   return (
-    <Container fluid className="d-flex align-items-center justify-content-center vh-100">
-      <Row className="w-75 shadow-lg">
-        <Col md={6} className="p-5 bg-white">
-          <div className="text-start mb-4">
-            <img src="logo.jpg" alt="Book Store" width="50" height="50" />
-            <label style={{ fontFamily: 'Times New Roman' }}>PageNest</label>
+    <div className="loginPageContainer">
+      <div className="loginCard">
+        <div className="loginCardLeft">
+          <div className="brand">
+            <img src="/logo.jpg" alt="Book Store" className="brandLogo" /> {/* Assuming logo.jpg is in the public folder */}
+            <span className="brandName">PageNest</span>
           </div>
-          <h2 className="text-center mb-4">Login to Your Account</h2>
-          <hr />
+          <h2 className="loginTitle">Login to PageNest</h2>
+          <hr className="divider" />
           {errorMessage && (
-            <div className="alert alert-danger text-center mt-3 animate__animated animate__fadeIn">
+            <div className={`alert alert-danger text-center mt-3 animate__animated animate__fadeIn`}>
               {errorMessage}
             </div>
           )}
-          <Form>
-            <Form.Group controlId="formUsername">
-              <Form.Control
+          <form onSubmit={handleSubmit} className="loginForm">
+            <div className="formGroup">
+              <label htmlFor="username" className="formLabel">Username </label>
+              <input
                 type="text"
-                placeholder="Enter your username"
-                className="rounded-pill"
-                style={{ backgroundColor: 'rgb(239, 235, 229)' }}
+                id="username"
                 name="username"
+                placeholder="Enter your username"
+                className="formControl"
                 value={user.username}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
-            </Form.Group>
-            <br />
-            <Form.Group controlId="formPassword">
-              <Form.Control
+            </div>
+            <div className="formGroup">
+              <label htmlFor="password" className="formLabel">Password </label>
+              <input
                 type="password"
-                placeholder="Enter your password"
-                className="rounded-pill"
-                style={{ backgroundColor: 'rgb(239, 235, 229)' }}
+                id="password"
                 name="password"
+                placeholder="Enter your password"
+                className="formControl"
                 value={user.password}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
-            </Form.Group>
-
-            <Button variant="success" type="submit" className="w-100 mt-3" onClick={handleSubmitform}>
+            </div>
+            <button type="submit" className="signInButton">
               Sign In
-            </Button>
-          </Form>
-        </Col>
-        <Col
-          md={6}
-          className="p-5 d-flex flex-column align-items-center justify-content-center"
-          style={{ backgroundColor: 'rgb(239, 235, 229)' }}
-        >
-          <h3>New Here?</h3>
-          <p>Sign up and discover new opportunities!</p>
-          <Button variant="outline-primary" className="mt-3" onClick={handleSubmitregister}>
+            </button>
+          </form>
+        </div>
+        <div className="loginCardRight">
+          <h3 className="newHereTitle">New Here?</h3>
+          <p className="newHereText">Sign up and unlock a world of books and opportunities!</p>
+          <button className="signUpButton" onClick={handleRegisterClick}>
             Sign Up
-          </Button>
-        </Col>
-      </Row>
-    </Container>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
+ 
 export default LoginPage;

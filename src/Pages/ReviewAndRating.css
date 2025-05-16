@@ -1,0 +1,226 @@
+/* 📚 Bookstore-Inspired Background */
+body {
+    background: linear-gradient(135deg, #f4f1ea, #ddd6cb);
+    font-family: "Merriweather", serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  /* 📌 Main Container */
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* 🏛️ Elegant Card Design */
+  .review-form, .review-list {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #c2b59b;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .review-form:hover, .review-list:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* 🔥 Formal Headings */
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #5a4634;
+  }
+  
+  /* ✨ Styled Input Fields */
+  textarea.form-control {
+    border: 2px solid #c2b59b;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  textarea.form-control:focus {
+    border-color: #5a4634;
+    outline: none;
+  }
+  
+  /* ⭐ Star Ratings */
+  .star-rating span {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #aaa;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .star-rating span:hover {
+    transform: scale(1.2);
+    color: #c2b59b;
+  }
+  
+  /* 🖼️ Bookstore-Themed Review Cards */
+  .list-group-item {
+    background: linear-gradient(135deg, #fffaf0, #f3e9d4);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #c2b59b;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .list-group-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* 🏷️ Formal Buttons */
+  .btn {
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 10px 16px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .btn-primary {
+    background: #5a4634;
+    border: none;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(90, 70, 52, 0.3);
+    background: #463627;
+  }
+  
+  .btn-warning {
+    background: #c2b59b;
+    color: #fff;
+  }
+  
+  .btn-danger {
+    background: #844726;
+    color: #fff;
+  }
+  
+  /* ✨ Smooth Fade-in Animation */
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  .review-form, .review-list, .list-group-item {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  /* 📱 Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        padding: 8px 14px;
+    }
+    
+    .list-group-item {
+        padding: 15px;
+    }
+  }
+  /* 🌟 Popup Styling */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .popup-container h2 {
+    color: #007bff;
+    font-size: 1.8rem;
+  }
+  
+  .popup-container p {
+    color: #333;
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  .popup-btn {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .popup-btn:hover {
+    background: #0056b3;
+  }
+  
+  /* ✨ Smooth Fade-in Effect */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  /* 🌟 Alert Box Styling */
+  .alert-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
+    font-weight: bold;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* 🌟 Gold-Filled Hover Effect */
+  .star-rating span {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ccc;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .star-rating span:hover {
+    transform: scale(1.2);
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.6), 0 0 18px rgba(255, 204, 0, 0.8);
+  }
+  

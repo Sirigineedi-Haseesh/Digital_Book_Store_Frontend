@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './productView.css'; // Import a dedicated CSS file for styling
 import { getAllBooks } from '../../Services/BookService'; 
+import ReviewAndRating from '../ReviewAndRating';
+import { getUser } from '../../Services/UserService'; // Import the getUser function
 
 const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
   const { isbn } = useParams();
@@ -9,6 +11,7 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
   const [quantity, setQuantity] = useState(1);
   const [bookType, setBookType] = useState('Hardcover');
   const [error, setError] = useState(null);
+  const [userId,setUserId] = useState(null); // State to store userId
 
   const incrementQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -16,6 +19,19 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
 
   const decrementQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+
+  const fetchUserId = async () => {
+    console.log("Inside fetchUserId");
+    try {
+      const response = await getUser(localStorage.getItem('username'));
+      console.log(response.userId);
+      setUserId(response.userId); // Set the userId in state
+      console.log(userId);
+       // Set the userId in state
+    } catch (error) {
+      console.error('Failed to fetch user ID:', error);
+    }
   };
 
   useEffect(() => {
@@ -38,7 +54,12 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
     };
 
     fetchProduct();
+    console.log("fetching userId");
+    fetchUserId(); // Fetch the userId when the component mounts
   }, [isbn]);
+  useEffect(() => {
+    console.log('Updated userId:', userId);
+  }, [userId]);
 
   const handleAddToCart = () => {
     const cartItem = {
@@ -71,6 +92,7 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
     updateCartBadge(totalItems);
 
     console.log('Added to cart:', cartItem);
+    console.log('Quantity:', quantity);
   };
 
   if (error) {
@@ -82,6 +104,7 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
   }
 
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div className="product-view container mt-4">
       <h1 className="product-title text-center mb-4">{product.title}</h1>
       <div className="row">
@@ -122,16 +145,17 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
                   onClick={decrementQuantity}
                 >
                   -
-                </button>
-                <input
+                  </button>
+              <input
                   type="number"
                   id="quantity"
                   className="form-control shadow-sm text-center mx-2"
                   min="1"
                   value={quantity}
                   readOnly
-                />
-                <button
+                  style={{ color: 'black', width: '5vw' }} // Use valid inline styles
+            />
+              <button
                   type="button"
                   className="btn btn-outline-secondary btn-sm"
                   onClick={incrementQuantity}
@@ -147,6 +171,12 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
           </button>
         </div>
       </div>
+      <ReviewAndRating
+        bookId={product.bookId}
+        bookTitle={product.title}
+        userId={userId} // Pass the userId to ReviewAndRating
+      />
+    </div>
     </div>
   );
 };

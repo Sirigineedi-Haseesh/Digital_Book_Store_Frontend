@@ -73,3 +73,13 @@ export const searchOrders = async (query) => {
     throw error;
   }
 };
+
+export const getOrderById = async (orderId) => {
+  try {
+    const response = await api.get(`http://localhost:9091/order/${orderId}`);
+    return response.data; // Return the fetched order details
+  } catch (error) {
+    console.error('Error fetching order by ID:', error);
+    throw error; // Rethrow the error for further handling
+  }
+}

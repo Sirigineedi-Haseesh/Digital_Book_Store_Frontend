@@ -4,6 +4,7 @@ import AdminCard from '../../Components/AdminCard';
 
 const AdminPanel = () => {
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div>
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -64,6 +65,7 @@ const AdminPanel = () => {
       <footer className="text-center py-3 mt-4">
         <p>&copy; 2025 BookStore. All rights reserved.</p>
       </footer>
+    </div>
     </div>
   );
 };

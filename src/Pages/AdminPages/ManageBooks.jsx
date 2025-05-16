@@ -105,6 +105,7 @@ const BooksPage = () => {
   ];
 
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div className="container mt-10" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
       <PageHeader title="Manage Books" />
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -139,6 +140,7 @@ const BooksPage = () => {
           </ul>
         </nav>
       </div>
+    </div>
     </div>
   );
 };

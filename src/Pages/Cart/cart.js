@@ -92,6 +92,7 @@ const Cart = ({ updateCartBadge }) => {
 
       // Navigate to the order confirmation page
       navigate('/order');
+      window.location.reload();
     } catch (error) {
       console.error('Failed to save order:', error);
       alert('Failed to save the order. Please try again.');

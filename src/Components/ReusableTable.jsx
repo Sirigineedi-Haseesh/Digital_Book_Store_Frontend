@@ -3,7 +3,7 @@ import { Table, Button } from 'react-bootstrap';
 
 const ReusableTable = ({ columns, data, actions }) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover style={{ width: '100%' }}>
       <thead>
         <tr>
           {columns.map((col, index) => (
@@ -21,6 +21,7 @@ const ReusableTable = ({ columns, data, actions }) => {
               ))}
               {actions && (
                 <td>
+                  <div className="d-flex gap-2">
                   {actions.map((action, actionIndex) => (
                     <Button
                       key={actionIndex}
@@ -31,6 +32,7 @@ const ReusableTable = ({ columns, data, actions }) => {
                       {action.label}
                     </Button>
                   ))}
+                </div>
                 </td>
               )}
             </tr>

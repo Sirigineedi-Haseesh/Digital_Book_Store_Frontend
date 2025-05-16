@@ -19,8 +19,9 @@ import EditBookForm from './Pages/AdminPages/EditBook';
 import OrdersPage from './Pages/AdminPages/Orders';
 import UserProfile from './Pages/AdminPages/UserProfile';
 import EditProfile from './Pages/AdminPages/EditProfile';
+import ReviewAndRating from './Pages/ReviewAndRating';
 import { CartProvider } from './context/CartContext';
-
+import OrderDetails from './Pages/Order/OrderDetails';
 function App() {
   const isLoggedIn = !!localStorage.getItem('jwtToken'); // Check if user is logged in
   const [cartBadge, setCartBadge] = useState(0);
@@ -60,6 +61,8 @@ function App() {
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/userProfile" element={<UserProfile />} />
               <Route path="/editProfile" element={<EditProfile />} />
+              <Route path="/reviewAndRating" element={<ReviewAndRating />} />
+              <Route path="/orderdetails/:orderId" element={<OrderDetails />} />
             </Routes>
           </div>
           <Footer />

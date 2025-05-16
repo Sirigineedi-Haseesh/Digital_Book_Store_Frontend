@@ -77,10 +77,19 @@ const Products = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await searchBooks(searchQuery); // Call the backend API
-      setProducts(response); // Update the products with the search results
+      if (searchQuery.trim() === '') {
+        // If search query is empty, fetch all books
+        const response = await getAllBooks();
+        setProducts(response);
+        setError(null); // Clear any previous error
+      } else {
+        // If search query is present, fetch filtered books
+        const response = await searchBooks(searchQuery);
+        setProducts(response);
+      }
     } catch (error) {
-      console.error('Error searching for products:', error);
+      console.error('Error fetching products:', error);
+      setError('Failed to fetch products. Please try again later.');
     }
   };
 
@@ -92,6 +101,7 @@ const Products = () => {
   const cardColors = ['#f8d7da', '#d4edda', '#d1ecf1', '#fff3cd', '#f5c6cb', '#c3e6cb', '#bee5eb', '#ffeeba'];
 
   return (
+    <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
     <div className="products container mt-4">
       <h1 className="text-center mb-4">Products</h1>
       <SearchBar
@@ -117,7 +127,7 @@ const Products = () => {
       {error && <p className="text-center text-danger">{error}</p>}
       {!loading && !error && (
         <div>
-          {chunkArray(filteredProducts, 4).map((row, rowIndex) => (
+          {chunkArray(filteredProducts, 3).map((row, rowIndex) => (
             <div className="row mb-4" key={rowIndex} style={{ marginBottom: '2vh', backgroundColor: '#f8f9fa' }}>
               {row.map((product, productIndex) => (
                 <div
@@ -153,6 +163,7 @@ const Products = () => {
           ))}
         </div>
       )}
+    </div>
     </div>
   );
 };
