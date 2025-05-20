@@ -1,13 +1,18 @@
 
 import { api } from './api';
 
+//Instead of hardcoding the base URL in each function,can configure it once and reuse it.
 const API_AUTH_URL = 'http://localhost:9096/api/auth';
 
+//This asynchronous function takes userData as an argument and sends a POST request to the /saveUser endpoint.
+//The function saveUser makes an API call to send this data to the backend (/api/auth/saveUser).
+//The response object determines whether the operation succeeded or failed.
 export const saveUser = async (userData) => {
   try {
     const response = await api.post(`/api/auth/saveUser`, userData);
     return response.data;
-  } catch (error) {
+  }
+   catch (error) {
     throw error;
   }
 };
@@ -35,9 +40,9 @@ export const authenticate = async (user) => {
   try {
     const response = await api.post(`${API_AUTH_URL}/login`, user);
     
-    return response.data;
+    return response.data; //return jwt token
   } catch (error) {
-    throw error;
+    throw error; //server issue,login failed
   }
 };
 

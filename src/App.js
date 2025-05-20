@@ -23,8 +23,8 @@ import ReviewAndRating from './Pages/ReviewAndRating';
 import { CartProvider } from './context/CartContext';
 import OrderDetails from './Pages/Order/OrderDetails';
 function App() {
-  const isLoggedIn = !!localStorage.getItem('jwtToken'); // Check if user is logged in
-  const [cartBadge, setCartBadge] = useState(0);
+  const isLoggedIn = !!localStorage.getItem('jwtToken'); // Check if user is logged in by looking for JWT token in local storage
+  const [cartBadge, setCartBadge] = useState(0); //keep track of the number of items in the cart
 
   const updateCartBadge = (totalItems) => {
     setCartBadge(totalItems);
@@ -37,7 +37,8 @@ function App() {
   };
 
   return (
-    <CartProvider>
+    // provides the cart context to all components
+    <CartProvider> 
       <Router>
         <div className="App">
           <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} cartBadge={cartBadge} />

@@ -1,49 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { authenticate } from '../../Services/UserService';
 import 'animate.css';
 import { jwtDecode } from "jwt-decode";
- 
+
 function LoginPage() { // Receive onLogin prop
- 
+
   const navigate = useNavigate();
   const [user, setUser] = useState({ username: '', password: '' });
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
- 
-  useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        // Assuming your token contains a 'role' claim
-        const userRole = decodedToken.role;
-        if (userRole === 'ROLE_ADMIN') {
-          navigate('/admin'); // Navigate to admin panel for admin users
-        } else {
-          navigate('/home'); // Navigate to home for regular users
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error); // Log the error for debugging
-        setIsLoading(false); // Token is invalid or expired, allow login to proceed
-      }
-    } else {
-      // No token, allow login to proceed
-      setIsLoading(false);
-    }
-  }, [navigate]); // Include onLogin in dependency array
- 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleRegisterClick = (event) => {
     event.preventDefault();
     navigate('/signup'); // Corrected navigation path
   };
- 
+
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
- 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true); // Set loading to true when the login process starts
@@ -54,12 +31,12 @@ function LoginPage() { // Receive onLogin prop
         localStorage.setItem('jwtToken', token);
         localStorage.setItem('username', user.username); // Store username in local storage
         // Update login status in App
-       
+
         const decodedToken = jwtDecode(token);
         const userRole = decodedToken.role; // Assuming your token contains a 'role' claim
         console.log('Decoded token:', decodedToken); // Log the decoded token for debugging
         console.log(userRole)
-       
+
         if (userRole === 'ROLE_ADMIN') {
           navigate('/admin');
           window.location.reload(); // Navigate to admin panel for admin users
@@ -80,11 +57,11 @@ function LoginPage() { // Receive onLogin prop
       setIsLoading(false); // Set loading to false if there's an error during login
     }
   };
- 
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
- 
+
   return (
     <div className="loginPageContainer">
       <div className="loginCard">
@@ -142,5 +119,4 @@ function LoginPage() { // Receive onLogin prop
   );
 }
 
- 
 export default LoginPage;

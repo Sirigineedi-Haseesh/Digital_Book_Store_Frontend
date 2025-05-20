@@ -6,7 +6,8 @@ import ErrorAlert from '../../Components/ErrorAlert'; // Correct path for ErrorA
 import { saveUser } from '../../Services/UserService';
 
 const CreateAccountForm = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //initialize hook used for navigation
+  // State variables for form data and loading state
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -17,24 +18,29 @@ const CreateAccountForm = () => {
     repeatPassword: '',
     terms: false,
   });
-
+  // State variable for error message
   const [errorMessage, setErrorMessage] = useState("");
 
+  // This function updates the formData state based on user input
   const handleChange = (e) => {
+   
     const { id, value, type, checked } = e.target;
     setFormData({
       ...formData,
       [id]: type === 'checkbox' ? checked : value,
     });
   };
-
+  
+  // This function handles the form submission
   const handleSubmit = async (e) => {
+    // Prevent the default form submission behavior
     e.preventDefault();
     setIsLoading(true);
 
     // Validate username length
     if (formData.username.length < 3 || formData.username.length > 20) {
       setErrorMessage("Username must be between 3 to 20 characters!");
+      // stops the loading spinner 
       setIsLoading(false);
       return;
     }
@@ -68,6 +74,7 @@ const CreateAccountForm = () => {
       return;
     }
 
+    //collects user registration details via a form and submits it using the saveUser function.
     try {
       const response = await saveUser({
         username: formData.username,
@@ -152,7 +159,9 @@ const CreateAccountForm = () => {
               <input type="checkbox" className="form-check-input" id="terms" checked={formData.terms} onChange={handleChange} required />
               <label className="form-check-label" htmlFor="terms">I agree to the Terms of Service</label>
             </div>
-            <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
+
+            {/* Disables the button when the form is submitting, preventing multiple clicks. */}
+            <button type="submit" className="btn btn-primary w-100" >
               {isLoading ? "Submitting..." : "SIGN UP"}
             </button>
             <button

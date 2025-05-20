@@ -7,6 +7,7 @@ import ReusableTable from '../../Components/ReusableTable';
 import ErrorAlert from '../../Components/ErrorAlert';
 import PageHeader from '../../Components/PageHeader';
 import ActionButton from '../../Components/ActionButton';
+import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal
 
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
@@ -15,6 +16,8 @@ const BooksPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(10);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null); // Track the book to delete
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,16 +38,20 @@ const BooksPage = () => {
     fetchBooks();
   }, []);
 
-  const handleDelete = async (title) => {
-    if (window.confirm(`Are you sure you want to delete the book titled "${title}"?`)) {
-      try {
-        await deleteBook(title);
-        setBooks(books.filter((book) => book.title !== title));
-      } catch (error) {
-        console.error('Error deleting book:', error);
-        setError('Failed to delete book.');
-      }
+  const handleDelete = async () => {
+    try {
+      await deleteBook(selectedBook.title);
+      setBooks(books.filter((book) => book.title !== selectedBook.title));
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      setError('Failed to delete book.');
     }
+  };
+
+  const openDeleteModal = (book) => {
+    setSelectedBook(book);
+    setShowDeleteModal(true);
   };
 
   const handleEdit = (title) => {
@@ -100,47 +107,65 @@ const BooksPage = () => {
     {
       label: 'Delete',
       variant: 'danger',
-      onClick: (book) => handleDelete(book.title),
+      onClick: (book) => openDeleteModal(book),
     },
   ];
 
   return (
     <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
-    <div className="container mt-10" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
-      <PageHeader title="Manage Books" />
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Books Page</h2>
-        <ActionButton label="Add Book" onClick={handleCreateBook} />
-      </div>
-      <SearchBar
-        placeholder="Search Here..."
-        searchQuery={searchQuery}
-        onInputChange={setSearchQuery}
-        onSearch={handleSearch}
-      />
-      <ErrorAlert message={error} />
-      {isLoading && (
-        <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+      <div className="container mt-10" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
+        <PageHeader title="Manage Books" />
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h2>Books Page</h2>
+          <ActionButton label="Add Book" onClick={handleCreateBook} />
         </div>
-      )}
-      <ReusableTable columns={columns} data={currentBooks} actions={actions} />
-      <div className="d-flex justify-content-center mt-3">
-        <nav>
-          <ul className="pagination">
-            {Array.from({ length: Math.ceil(books.length / booksPerPage) }, (_, index) => (
-              <li key={index} className="page-item">
-                <button onClick={() => paginate(index + 1)} className="page-link">
-                  {index + 1}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <SearchBar
+          placeholder="Search Here..."
+          searchQuery={searchQuery}
+          onInputChange={setSearchQuery}
+          onSearch={handleSearch}
+        />
+        <ErrorAlert message={error} />
+        {isLoading && (
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
+        <ReusableTable columns={columns} data={currentBooks} actions={actions} />
+        <div className="d-flex justify-content-center mt-3">
+          <nav>
+            <ul className="pagination">
+              {Array.from({ length: Math.ceil(books.length / booksPerPage) }, (_, index) => (
+                <li key={index} className="page-item">
+                  <button onClick={() => paginate(index + 1)} className="page-link">
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
-    </div>
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete the book titled "{selectedBook?.title}"?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

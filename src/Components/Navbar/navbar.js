@@ -9,7 +9,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { CgProfile } from "react-icons/cg";
 import PropTypes from 'prop-types';
-
+ 
 const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
   const cartRef = useRef(null);
   const [theme, setTheme] = useState('light');
@@ -20,7 +20,7 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
-
+ 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     if (token && isLoggedIn) {
@@ -38,19 +38,19 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
       setRole('');
     }
   }, [isLoggedIn]);
-
+ 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
-
+ 
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+ 
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
   };
-
+ 
   const handleSignOut = () => {
     localStorage.removeItem('jwtToken');
     onLogout(); // Call the onLogout function passed from App
@@ -60,8 +60,8 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
     navigate('/login'); // Redirect to login page after sign out
     window.location.reload(); // Redirect to home after sign out
   };
-  
-
+ 
+ 
   return (
     <div position="fixed" className="appBar" color='#dbd3c8'>
       <Toolbar className="toolbar">
@@ -69,25 +69,29 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
           <span>P</span>age<span>N</span>est
         </Typography>
         <div style={{ flexGrow: 1 }} />
-
+        {role==='ROLE_USER' && (
+          <>
         <Button component={Link} to="/home" className="homeButton" color="inherit">Home</Button>
         <Button component={Link} to="/order" className="orderButton" color="inherit">Orders</Button>
         <Button component={Link} to="/products" color="inherit">Products</Button>
+        </>
+        )}
         {role === 'ROLE_ADMIN' && (
           <Button component={Link} to="/admin" className="adminButton" color="inherit">Admin Panel</Button>
         )}
-        <IconButton component={Link} to="/cart" color="inherit" ref={cartRef} className="cartButton" aria-label="cart">
-          <Badge badgeContent={cartBadge} color="secondary" className="badge">
-            <ShoppingCart />
-          </Badge>
-        </IconButton>
-
-        {/* Conditionally render Admin Panel button if the role is ADMIN */}
-
+        {/* Conditionally render the cart button only for non-admin users */}
+        {role !== 'ROLE_ADMIN' && (
+          <IconButton component={Link} to="/cart" color="inherit" ref={cartRef} className="cartButton" aria-label="cart">
+            <Badge badgeContent={cartBadge} color="secondary" className="badge">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+        )}
+ 
         {isLoggedIn && (
           <Typography color="inherit" style={{ marginRight: '8px' }}>Hi, {username}</Typography>
         )}
-
+ 
         <IconButton onClick={handleProfileClick} color="inherit">
           <CgProfile />
         </IconButton>
@@ -108,7 +112,7 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
             </>
           )}
         </Menu>
-
+ 
         <IconButton onClick={toggleTheme} color="inherit">
           {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
         </IconButton>
@@ -116,12 +120,11 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
     </div>
   );
 };
-
+ 
 Navbar.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   onLogout: PropTypes.func.isRequired,
   cartBadge: PropTypes.number.isRequired,
 };
-
+ 
 export default Navbar;
-

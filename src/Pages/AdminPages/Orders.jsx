@@ -7,6 +7,7 @@ import ReusableTable from '../../Components/ReusableTable';
 import ErrorAlert from '../../Components/ErrorAlert';
 import SearchBar from '../../Components/SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal
 
 const OrdersPage = () => {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ const OrdersPage = () => {
   const [statusChange, setStatusChange] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [searchDate, setSearchDate] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false); // State for success modal
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -54,6 +57,8 @@ const OrdersPage = () => {
           delete updated[orderId];
           return updated;
         });
+        setSuccessMessage(`Order status updated to "${newStatus}" successfully!`);
+        setShowSuccessModal(true); // Show success modal
       }
     } catch (error) {
       console.error('Error updating order status:', error);
@@ -64,17 +69,15 @@ const OrdersPage = () => {
   const handleSearch = async () => {
     try {
       let data = [];
-  
       setError(null);
-  
+
       if (searchDate && searchQuery) {
         data = await searchOrdersByDate(searchDate);
-        data = data.filter(order =>
+        data = data.filter((order) =>
           order.orderId.toString().includes(searchQuery) ||
           order.userId.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
           order.orderStatus.toLowerCase().includes(searchQuery.toLowerCase())
         );
-  
       } else if (searchDate) {
         data = await searchOrdersByDate(searchDate);
       } else if (searchQuery) {
@@ -82,7 +85,7 @@ const OrdersPage = () => {
       } else {
         data = await getOrders();
       }
-  
+
       setOrders(data);
     } catch (error) {
       console.error('Error searching orders:', error);
@@ -92,7 +95,7 @@ const OrdersPage = () => {
 
   const handleDetails = (orderId) => {
     navigate(`/orderdetails/${orderId}`);
-  }
+  };
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -134,56 +137,69 @@ const OrdersPage = () => {
       label: 'View',
       variant: 'primary',
       onClick: (order) => handleDetails(order.orderId),
-    }
+    },
   ];
 
   return (
     <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
-    <div
-      className="container mt-3"
-      style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}
-    >
-      <PageHeader title="Manage Orders" />
-      <div className="row mb-3 align-items-center">
-        <div className="col-md-4 d-flex flex-column justify-content-start ">
-          <input
-            type="date"
-            id="searchDate"
-            className="form-control"
-            style={{ height: '48px' }}
-            value={searchDate}
-            onChange={(e) => setSearchDate(e.target.value)}
-          />
+      <div
+        className="container mt-3"
+        style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}
+      >
+        <PageHeader title="Manage Orders" />
+        <div className="row mb-3 align-items-center">
+          <div className="col-md-4 d-flex flex-column justify-content-start ">
+            <input
+              type="date"
+              id="searchDate"
+              className="form-control"
+              style={{ height: '48px' }}
+              value={searchDate}
+              onChange={(e) => setSearchDate(e.target.value)}
+            />
+          </div>
+          <div className="col-md-8">
+            <SearchBar
+              placeholder="Search by order ID, user ID, or status"
+              searchQuery={searchQuery}
+              onInputChange={setSearchQuery}
+              onSearch={handleSearch}
+            />
+          </div>
         </div>
-        <div className="col-md-8">
-          <SearchBar
-            placeholder="Search by order ID, user ID, or status"
-            searchQuery={searchQuery}
-            onInputChange={setSearchQuery}
-            onSearch={handleSearch}
-          />
+        <ErrorAlert message={error} />
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <ReusableTable columns={columns} data={currentOrders} actions={actions} />
+        )}
+        <div className="d-flex justify-content-center mt-3">
+          <nav>
+            <ul className="pagination">
+              {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, index) => (
+                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                  <button onClick={() => paginate(index + 1)} className="page-link">
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
-      <ErrorAlert message={error} />
-      {loading ? (
-        <LoadingSpinner />
-      ) : (
-        <ReusableTable columns={columns} data={currentOrders} actions={actions} />
-      )}
-      <div className="d-flex justify-content-center mt-3">
-        <nav>
-          <ul className="pagination">
-            {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, index) => (
-              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                <button onClick={() => paginate(index + 1)} className="page-link">
-                  {index + 1}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-    </div>
+
+      {/* Success Modal */}
+      <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Success</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{successMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

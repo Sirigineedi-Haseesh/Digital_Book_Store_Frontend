@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client'; //rendering,create root-concurent rendering
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -7,7 +7,7 @@ import { UserProvider } from './context/UserContext'; // Import the UserProvider
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <React.StrictMode> 
     <UserProvider>
       <App />
     </UserProvider>
