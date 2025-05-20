@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getUsers, deleteUser, updateUserRole } from '../../Services/UserService';
-import PageHeader from '../../Components/PageHeader';
-import LoadingSpinner from '../../Components/LoadingSpinner';
-import ReusableTable from '../../Components/ReusableTable';
-import ErrorAlert from '../../Components/ErrorAlert';
+import PageHeader from '../../Components/PageHeader/PageHeader';
+import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import ReusableTable from '../../Components/ReusableTable/ReusableTable';
+import ErrorAlert from '../../Components/ErrorAlert/ErrorAlert';
 import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal
 
 const UserList = () => {

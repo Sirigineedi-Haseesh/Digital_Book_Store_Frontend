@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import StarRating from "./StarRating";
-import { getReviewsByBookTitle, deleteReviewOfUser, updateReviewOfUser } from "../Services/ReviewAndRatingService";
+import StarRating from "../StartRating/StarRating";
+import { getReviewsByBookTitle, deleteReviewOfUser, updateReviewOfUser } from "../../Services/ReviewAndRatingService";
 
 const ReviewList = ({ bookTitle,userId }) => {
     const [reviews, setReviews] = useState([]);
@@ -14,8 +14,6 @@ const ReviewList = ({ bookTitle,userId }) => {
             try {
                 const fetchedReviews = await getReviewsByBookTitle(bookTitle);
                 setReviews(fetchedReviews);
-                console.log(fetchedReviews);
-                console.log(reviews);
             } catch (error) {
                 console.error("Error fetching reviews:", error);
             }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { addBook } from '../../Services/BookService';
-import ErrorAlert from '../../Components/ErrorAlert';
+import ErrorAlert from '../../Components/ErrorAlert/ErrorAlert';
 
 const AddBookForm = () => {
   const navigate = useNavigate();

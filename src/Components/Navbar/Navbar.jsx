@@ -3,8 +3,8 @@ import { Toolbar, IconButton, Badge, Typography, Button, Menu, MenuItem } from '
 import { ShoppingCart } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode'; // Ensure this is correctly imported
-import "./navbar.css";
-import "../../variables.css";
+import "./Navbar.css";
+import "../../Variables.css";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { CgProfile } from "react-icons/cg";
@@ -100,22 +100,43 @@ const Navbar = ({ isLoggedIn, onLogout, cartBadge }) => {
           open={Boolean(anchorEl)}
           onClose={handleProfileMenuClose}
         >
-          {isLoggedIn ? (
-            <>
-              <MenuItem component={Link} to="/userProfile" onClick={handleProfileMenuClose}>Profile</MenuItem>
-              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-            </>
-          ) : (
-            <>
-              <MenuItem component={Link} to="/login" onClick={handleProfileMenuClose}>Login</MenuItem>
-              <MenuItem component={Link} to="/signup" onClick={handleProfileMenuClose}>Register</MenuItem>
-            </>
-          )}
+          {isLoggedIn
+            ? [
+                <MenuItem
+                  key="profile"
+                  component={Link}
+                  to="/userProfile"
+                  onClick={handleProfileMenuClose}
+                >
+                  Profile
+                </MenuItem>,
+                <MenuItem key="signout" onClick={handleSignOut}>
+                  Sign Out
+                </MenuItem>,
+              ]
+            : [
+                <MenuItem
+                  key="login"
+                  component={Link}
+                  to="/login"
+                  onClick={handleProfileMenuClose}
+                >
+                  Login
+                </MenuItem>,
+                <MenuItem
+                  key="signup"
+                  component={Link}
+                  to="/signup"
+                  onClick={handleProfileMenuClose}
+                >
+                  Register
+                </MenuItem>,
+              ]}
         </Menu>
  
-        <IconButton onClick={toggleTheme} color="inherit">
+        {/* <IconButton onClick={toggleTheme} color="inherit">
           {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
     </div>
   );

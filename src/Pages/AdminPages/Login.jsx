@@ -88,6 +88,7 @@ function LoginPage() { // Receive onLogin prop
                 className="formControl"
                 value={user.username}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="formGroup">
@@ -100,6 +101,7 @@ function LoginPage() { // Receive onLogin prop
                 className="formControl"
                 value={user.password}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <button type="submit" className="signInButton">

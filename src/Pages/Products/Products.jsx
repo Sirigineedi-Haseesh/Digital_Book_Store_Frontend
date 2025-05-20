@@ -1,18 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../../context/CartContext'; 
-import './products.css';// Adjust the import path as necessary
+import './Products.css';// Adjust the import path as necessary
 import { getAllBooks } from '../../Services/BookService';
 import SearchBar from '../../Components/SearchBar/SearchBar';
 import { searchBooks } from '../../Services/BookService'; // Adjust the import path as necessary
 // Moved useCart hook outside the component
-const useCart = () => {
-  const context = useContext(CartContext); // Corrected to use CartContext
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -20,14 +12,8 @@ const Products = () => {
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [cartBadgeCount, setCartBadgeCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState(''); // Correctly destructure useState
   const navigate = useNavigate();
-  const { addToCart } = useCart();
-
-  const updateCartBadge = (count) => {
-    setCartBadgeCount(count); // Update the cart badge count
-  };
 
   const chunkArray = (array, size) =>
     Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
@@ -54,20 +40,6 @@ const Products = () => {
 
   const handleCardClick = (isbn) => {
     navigate(`/productview/${isbn}`); // Ensure the route matches the updated parameter
-  };
-
-  const handleAddToCart = (product, event) => {
-    event.stopPropagation();
-
-    // Use the addToCart function from the CartContext
-    addToCart(product);
-
-    // Retrieve the updated cart from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Update the cart badge count
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    updateCartBadge(totalItems);
   };
 
   const handleCategoryClick = (category, event) => {

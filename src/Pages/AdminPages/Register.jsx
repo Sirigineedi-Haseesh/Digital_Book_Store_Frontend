@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Correct path for UserService
-import ErrorAlert from '../../Components/ErrorAlert'; // Correct path for ErrorAlert
+import ErrorAlert from '../../Components/ErrorAlert/ErrorAlert'; // Correct path for ErrorAlert
 import { saveUser } from '../../Services/UserService';
 
 const CreateAccountForm = () => {
@@ -36,7 +36,6 @@ const CreateAccountForm = () => {
     // Prevent the default form submission behavior
     e.preventDefault();
     setIsLoading(true);
-
     // Validate username length
     if (formData.username.length < 3 || formData.username.length > 20) {
       setErrorMessage("Username must be between 3 to 20 characters!");
@@ -55,6 +54,7 @@ const CreateAccountForm = () => {
 
     // Validate password length
     if (formData.password.length < 6) {
+      setErrorMessage("");
       setErrorMessage("Password must be at least 6 characters long!");
       setIsLoading(false);
       return;
@@ -62,6 +62,7 @@ const CreateAccountForm = () => {
 
     // Validate password match
     if (formData.password !== formData.repeatPassword) {
+      setErrorMessage("");
       setErrorMessage("Passwords do not match!");
       setIsLoading(false);
       return;
@@ -94,8 +95,6 @@ const CreateAccountForm = () => {
 
       if (error.response && error.response.data) {
         setErrorMessage(typeof error.response.data === 'string' ? error.response.data : "An error occurred. Please try again.");
-      } else {
-        setErrorMessage("Failed to create account. Please try again.");
       }
     } finally {
       setIsLoading(false); // Stop loading after response
@@ -103,6 +102,7 @@ const CreateAccountForm = () => {
   };
 
   return (
+    <div style={{ backgroundColor: "rgb(239, 235, 229)" }}>
     <div className="container mt-5 d-flex justify-content-center">
       <div className="card shadow" style={{ maxWidth: '600px', width: '100%' }}>
         <div className="card-body" style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
@@ -191,6 +191,7 @@ const CreateAccountForm = () => {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 };

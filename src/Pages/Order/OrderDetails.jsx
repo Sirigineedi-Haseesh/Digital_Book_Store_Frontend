@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ReusableTable from '../../Components/ReusableTable';
+import ReusableTable from '../../Components/ReusableTable/ReusableTable';
 import { getOrderById } from '../../Services/OrderService'; // Assuming this service exists
 import { getBookById } from '../../Services/BookService'; // Assuming this service exists
 

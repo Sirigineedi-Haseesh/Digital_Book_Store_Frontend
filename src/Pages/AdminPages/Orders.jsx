@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getOrders, updateOrderStatus, searchOrdersByDate, searchOrders } from '../../Services/OrderService';
-import PageHeader from '../../Components/PageHeader';
-import LoadingSpinner from '../../Components/LoadingSpinner';
-import ReusableTable from '../../Components/ReusableTable';
-import ErrorAlert from '../../Components/ErrorAlert';
+import PageHeader from '../../Components/PageHeader/PageHeader';
+import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import ReusableTable from '../../Components/ReusableTable/ReusableTable';
+import ErrorAlert from '../../Components/ErrorAlert/ErrorAlert';
 import SearchBar from '../../Components/SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal

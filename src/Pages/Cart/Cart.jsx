@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './cart.css';
+import './Cart.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { UserContext } from '../../context/UserContext';

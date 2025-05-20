@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { addBook, editBook, getBookByTitle } from '../../Services/BookService';
-import ErrorAlert from '../../Components/ErrorAlert';
-import LoadingSpinner from '../../Components/LoadingSpinner';
+import ErrorAlert from '../../Components/ErrorAlert/ErrorAlert';
+import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
 
 const EditBookForm = () => {
   const { title } = useParams();

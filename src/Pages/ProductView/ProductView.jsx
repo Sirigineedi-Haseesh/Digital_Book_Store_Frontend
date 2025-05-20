@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './productView.css'; // Import a dedicated CSS file for styling
+import './ProductView.css'; // Import a dedicated CSS file for styling
 import { getAllBooks } from '../../Services/BookService'; 
-import ReviewAndRating from '../ReviewAndRating';
+import ReviewAndRating from '../ReviewAndRating/ReviewAndRating';
 import { getUser } from '../../Services/UserService'; // Import the getUser function
 
 const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
@@ -56,7 +56,7 @@ const ProductView = ({ updateCartBadge }) => { // Add `updateCartBadge` prop
     fetchProduct();
     console.log("fetching userId");
     fetchUserId(); // Fetch the userId when the component mounts
-  }, [isbn]);
+  }, [isbn]); 
   useEffect(() => {
     console.log('Updated userId:', userId);
   }, [userId]);

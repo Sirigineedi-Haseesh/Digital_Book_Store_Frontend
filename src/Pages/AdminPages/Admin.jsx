@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AdminCard from '../../Components/AdminCard';
+import AdminCard from '../../Components/AdminCard/AdminCard';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 
 const AdminPanel = () => {

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ReviewAndRating.css"; // Import your CSS file here
-import AlertBox from "../Components/AlertBox";
-import ReviewForm from "../Components/ReviewForm";
-import ReviewList from "../Components/ReviewList";
-import { addReviewOfUser } from "../Services/ReviewAndRatingService";
+import AlertBox from "../../Components/AlertBox/AlertBox";
+import ReviewForm from "../../Components/ReviewForm/ReviewForm";
+import ReviewList from "../../Components/ReviewList/ReviewList";
+import { addReviewOfUser } from "../../Services/ReviewAndRatingService";
+import { getReviewsByBookTitle } from "../../Services/ReviewAndRatingService";
 
 const ReviewAndRating = (props) => {
     const [reviews, setReviews] = useState({
@@ -16,6 +17,19 @@ const ReviewAndRating = (props) => {
         userId: props.userId,
     });
     const [alertMessage, setAlertMessage] = useState("");
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const fetchedReviews = await getReviewsByBookTitle(props.bookTitle);
+                setReviews(fetchedReviews);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        };
+
+        fetchReviews();
+    }, [props.bookTitle]); // Do not include 'reviews' unless necessary
 
     // Show alert message
     const showAlert = (message) => {

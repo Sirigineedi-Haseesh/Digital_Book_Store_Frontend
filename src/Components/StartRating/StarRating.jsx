@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Pages/ReviewAndRating.css"// Ensure styles are imported
+import "../../Pages/ReviewAndRating/ReviewAndRating.css";
 
 const StarRating = ({ rating, setRating, readOnly = false }) => {
     const handleClick = (index) => {

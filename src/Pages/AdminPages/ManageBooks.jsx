@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { searchBooks, deleteBook } from '../../Services/BookService';
 import { getBooks } from '../../Services/UserService';
 import SearchBar from '../../Components/SearchBar/SearchBar';
-import ReusableTable from '../../Components/ReusableTable';
-import ErrorAlert from '../../Components/ErrorAlert';
-import PageHeader from '../../Components/PageHeader';
-import ActionButton from '../../Components/ActionButton';
+import ReusableTable from '../../Components/ReusableTable/ReusableTable';
+import ErrorAlert from '../../Components/ErrorAlert/ErrorAlert';
+import PageHeader from '../../Components/PageHeader/PageHeader';
+import ActionButton from '../../Components/ActionButton/ActionButton';
 import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal
 
 const BooksPage = () => {
@@ -111,6 +111,14 @@ const BooksPage = () => {
     },
   ];
 
+  // Function to dynamically apply a class to rows
+  const getRowClassName = (book) => {
+    if (book.inventory?.stock < 10) {
+      return 'table-danger'; // Bootstrap class for red background
+    }
+    return ''; // No additional class for other rows
+  };
+
   return (
     <div style={{ backgroundColor: 'rgb(239, 235, 229)' }}>
       <div className="container mt-10" style={{ backgroundColor: 'rgb(239, 235, 229)', padding: '20px', borderRadius: '10px' }}>
@@ -133,7 +141,12 @@ const BooksPage = () => {
             </div>
           </div>
         )}
-        <ReusableTable columns={columns} data={currentBooks} actions={actions} />
+        <ReusableTable
+          columns={columns}
+          data={currentBooks}
+          actions={actions}
+          rowClassName={getRowClassName} // Pass the rowClassName function
+        />
         <div className="d-flex justify-content-center mt-3">
           <nav>
             <ul className="pagination">

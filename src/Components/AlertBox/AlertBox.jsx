@@ -1,6 +1,6 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Pages/ReviewAndRating.css"; // Ensure styles are importedx
+import "../../Pages/ReviewAndRating/ReviewAndRating.css"; // Ensure styles are importedx
 // 🌟 Alert Message Component
 const AlertBox = ({ message }) => {
     return (
